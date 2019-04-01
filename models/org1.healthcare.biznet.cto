@@ -17,3 +17,83 @@
  */
 
 namespace org1.healthcare.biznet
+
+asset PatientReport identified by reportId {
+  o String reportId 
+  o ReportType rep_Type
+  --> Pateint ownerPatient
+  --> Doctor creatingDoctor
+}
+
+asset Prescription identified by receiptId {
+  o String receiptId
+  --> Pateint forPatient
+  --> Doctor byDoctor
+}
+
+asset LabReport identified by reportID {
+  o String reportID
+  --> Pateint ofPateint
+  --> TestLab byLab
+  --> Doctor forDoctor
+}
+
+enum ReportType {
+  o DoctorReport
+  o LabReport
+  o Prescription
+}
+
+participant Pateint identified by PatientId {
+  o String PatientId
+  o String Name
+  o String Age
+  o String Address
+  o String phoneNumber
+}
+
+participant Doctor identified by DocterId {
+  o String DocterId
+  o String Name
+  o String Age
+  o String Address
+  o String phoneNumber
+  --> Hospital employedBy
+}
+
+participant Hospital identified by HospitalId {
+  o String HospitalId
+  o String Name
+}
+
+participant Pharmacy identified by pharmacyId {
+  o String pharmacyId
+  o String pharmacyName
+}
+
+participant TestLab identified by labId {
+  o String labId
+  o String labName
+}
+
+transaction CreateAppointment {
+  --> Doctor appointmentWith
+  --> Pateint creatingPatient
+}
+
+transaction ProcessPrescription {
+  --> Prescription toProcessPrescription
+  --> Pateint forPatient
+  --> Doctor byDoctor
+}
+
+transaction GenerateLabReport {
+  o String testNames
+  --> Doctor byDoctor
+  --> Pateint ofPateint
+  --> TestLab fromLab
+}
+
+/*
+* More things go here
+*/
