@@ -33,6 +33,8 @@ admin@healthcare-network
  healthcare-network-admin.card 
 as the card 
 
+composer-rest-server -c admin@healthcare-network -n never -u true -d y -w true
+
 yo hyperledger-composer
 
 https://localhost:3000

@@ -16,3 +16,7 @@ Secure file sharing solution for healthcare
 4. composer card import --file healthcare-admin.card # To import the cards generated earlier 
 5. composer network ping --card admin@healthcare-network # To test whether network is running or not.
 6.. composer-playground
+
+
+## Important Links : 
+1. https://hyperledger.github.io/composer/latest/reference/js_scripts.html

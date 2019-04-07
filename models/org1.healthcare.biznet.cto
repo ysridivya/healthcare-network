@@ -18,6 +18,13 @@
 
 namespace org1.healthcare.biznet
 
+asset Appointment identified by appointmentId{
+  o String appointmentId
+  o String appointmentTime
+  --> Patient byPatient
+  --> Doctor forDoctor
+}
+
 asset PatientReport identified by reportId {
   o String reportId 
   o ReportType rep_Type
@@ -77,8 +84,8 @@ participant TestLab identified by labId {
 }
 
 transaction CreateAppointment {
-  --> Doctor appointmentWith
-  --> Patient creatingPatient
+  o String forDoctor
+  o String byPatient
 }
 
 transaction ProcessPrescription {
@@ -92,6 +99,16 @@ transaction GenerateLabReport {
   --> Doctor byDoctor
   --> Patient ofPatient
   --> TestLab fromLab
+}
+
+/*
+* Events go here
+*/
+
+event AppointmentEvent {
+  o Appointment new_appointment
+  o String forDoctor
+  o String byPatient
 }
 
 /*
