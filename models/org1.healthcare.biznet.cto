@@ -27,15 +27,17 @@ asset Appointment identified by appointmentId{
 
 asset PatientReport identified by reportId {
   o String reportId 
-  o ReportType rep_Type
   --> Patient ownerPatient
   --> Doctor creatingDoctor
+  o String reportMessage
 }
 
 asset Prescription identified by receiptId {
   o String receiptId
   --> Patient forPatient
   --> Doctor byDoctor
+  --> Pharmacy toPharmacy
+  o String PrescriptionText
 }
 
 asset LabReport identified by reportID {
@@ -83,9 +85,17 @@ participant TestLab identified by labId {
   o String labName
 }
 
-transaction CreateAppointment {
+transaction CreateAppointment { //Creates asset Appointment with DoctorId and PatientId
   o String forDoctor
   o String byPatient
+}
+
+transaction ResolveAppointment { // Creates PatientReport and Prescription
+  --> Appointment appointment
+  o String doctorId
+  o String reportMessage
+  o String PrescriptionText
+  o String pharmacyId
 }
 
 transaction ProcessPrescription {
