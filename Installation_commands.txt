@@ -2,7 +2,29 @@ cd ~/fabric-dev-servers
 export FABRIC_VERSION=hlfv11
 ./startFabric.sh
 ./createPeerAdminCard.sh
-./startFabric.sh 
+
+cd ../path/to/healthcareproject
+./runfabric.sh 0.0.19
+//if error, see if other cards are present
+> composer card list
+delete any other admin cards except PeerAdmin
+> composer card delete --card <CARD_NAME>
+
+//------------------------------For UI----------------------------//
+composer-rest-server
+..
+
+yo hyperledger-composer
+> Angular
+> Yes
+> Name of business card -> admin@healthcare-network
+>
+>
+>Namespaces not used
+cd NewFolderGenerated
+npm start
+goto localhost:4200
+//------------------------------------------------------------------//
 
 
 go to the health care folder
