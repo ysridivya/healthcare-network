@@ -1,0 +1,69 @@
+<!--
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <p class="network-name">healthcare-network@0.0.19.bna</p>
+        <p class="navbar-brand">healthcare</p>
+      </div>
+      <ul class="nav navbar-nav">
+        <li class="dropdown active">
+            <a class="dropdown-toggle" data-toggle="dropdown">Assets</a>
+            <ul class="dropdown-menu scrollable-menu">
+              
+              <li><a [routerLink]="['/Appointment']">Appointment</a></li>
+              
+              <li><a [routerLink]="['/PatientReport']">PatientReport</a></li>
+              
+              <li><a [routerLink]="['/Prescription']">Prescription</a></li>
+              
+              <li><a [routerLink]="['/LabReport']">LabReport</a></li>
+              
+            </ul>
+        </li>
+        <li class="dropdown active">
+          <a class="dropdown-toggle" data-toggle="dropdown">Participants</a>
+          <ul class="dropdown-menu scrollable-menu">
+            
+            <li><a [routerLink]="['/Patient']">Patient</a></li>
+            
+            <li><a [routerLink]="['/Doctor']">Doctor</a></li>
+            
+            <li><a [routerLink]="['/Hospital']">Hospital</a></li>
+            
+            <li><a [routerLink]="['/Pharmacy']">Pharmacy</a></li>
+            
+            <li><a [routerLink]="['/TestLab']">TestLab</a></li>
+            
+          </ul>
+      </li>
+      <li class="dropdown active">
+        <a class="dropdown-toggle" data-toggle="dropdown">Transactions</a>
+        <ul class="dropdown-menu scrollable-menu">
+          
+          <li><a [routerLink]="['/CreateAppointment']">CreateAppointment</a></li>
+          
+          <li><a [routerLink]="['/ResolveAppointment']">ResolveAppointment</a></li>
+          
+          <li><a [routerLink]="['/ProcessPrescription']">ProcessPrescription</a></li>
+          
+          <li><a [routerLink]="['/GenerateLabReport']">GenerateLabReport</a></li>
+          
+        </ul>
+    </li>
+      </ul>
+    </div>
+  </nav>
+  
+  <router-outlet></router-outlet>
