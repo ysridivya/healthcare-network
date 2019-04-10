@@ -21,6 +21,7 @@ namespace org1.healthcare.biznet
 asset Appointment identified by appointmentId{
   o String appointmentId
   o String appointmentTime
+  o Boolean completed
   --> Patient byPatient
   --> Doctor forDoctor
 }
