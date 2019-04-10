@@ -78,6 +78,4 @@ composer network ping --card admin@tutorial-network. Make note of the Business N
 
 
 
-For any problem with docker: 
 
-sudo service docker restart
