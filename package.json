@@ -3,7 +3,7 @@
     "composer": "^0.20.8"
   },
   "name": "healthcare-network",
-  "version": "0.0.19",
+  "version": "0.0.3",
   "description": "Secure file sharing solution for healthcare",
   "scripts": {
     "prepublish": "mkdirp ./dist && composer archive create --sourceType dir --sourceName . -a ./dist/healthcare-network.bna",

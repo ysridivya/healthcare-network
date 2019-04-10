@@ -30,7 +30,7 @@ asset PatientReport identified by reportId {
   o String reportId 
   --> Patient ownerPatient
   --> Doctor creatingDoctor
-  o String reportMessage
+  o String reportMessage //patient and doctor decide this during appointment
 }
 
 asset Prescription identified by receiptId {
@@ -98,6 +98,7 @@ transaction ResolveAppointment { // Creates PatientReport and Prescription
   o String reportMessage
   o String PrescriptionText
   o String pharmacyId
+  o Boolean canBeReferred  //added
 }
 
 transaction ProcessPrescription {
@@ -113,12 +114,22 @@ transaction GenerateLabReport {
   o String LabId
 }
 
-/* TODO */
+/* To be Verified */
 transaction ReferToAnotherDoctor {
-  
+  --> Doctor oldDoctor
+  --> Doctor newDoctor
+  --> PatientReport Report
 }
 
+transaction RevokeReferral {
+  --> Patient ownerPatient
+  --> PatientReport Report
+}
 
+transaction AllowReferral {
+  --> Patient ownerPatient
+  --> PatientReport Report
+}
 
 /*
 * Events go here
