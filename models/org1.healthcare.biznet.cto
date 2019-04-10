@@ -21,6 +21,7 @@ namespace org1.healthcare.biznet
 asset Appointment identified by appointmentId{
   o String appointmentId
   o String appointmentTime
+  o Boolean completed
   --> Patient byPatient
   --> Doctor forDoctor
 }
@@ -42,9 +43,10 @@ asset Prescription identified by receiptId {
 
 asset LabReport identified by reportID {
   o String reportID
-  --> Patient ofPatient
-  --> TestLab byLab
-  --> Doctor forDoctor
+  o String report
+  --> Patient patient
+  --> TestLab lab
+  --> Doctor doctor optional
 }
 
 enum ReportType {
@@ -105,10 +107,10 @@ transaction ProcessPrescription {
 }
 
 transaction GenerateLabReport {
-  o String testNames
-  --> Doctor byDoctor
-  --> Patient ofPatient
-  --> TestLab fromLab
+  o String TestsReport
+  o String DoctorId optional
+  o String PatientId 
+  o String LabId
 }
 
 /* TODO */
