@@ -14,6 +14,7 @@ composer network start --networkName healthcare-network --networkVersion 0.0.1 -
 
 Delete and import card
 composer card delete --card admin@healthcare-network
+rm -r ~/.composer/cards/admin@healthcare-network
 composer card import --file healthcare-admin.card
 
 
@@ -49,3 +50,15 @@ docker logs e6930720b036 | tee logs.log
 
 For any problem with docker: 
 sudo service docker restart
+
+If you get authorization failed use the following :
+1. stopFabric.sh
+2. startFabric.sh
+3. composer archive create -t dir -n .
+4. composer network install --archiveFile healthcare-network@0.0.1.bna --card PeerAdmin@hlfv1
+5. composer network start --networkName healthcare-network --networkVersion 0.0.1 --networkAdmin admin --networkAdminEnrollSecret adminpw --card PeerAdmin@hlfv1 --file healthcare-admin.card
+6. rm -r ~/.composer/cards/admin@healthcare-network
+7. composer card import --file healthcare-admin.card
+8. composer network ping --card admin@healthcare-network
+
+

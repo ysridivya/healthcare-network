@@ -12,6 +12,43 @@
  * limitations under the License.
  */
 
+rule AppointmentRule4 {
+    description: "Grant the prescription report share only to the doctor or the patient "
+    participant: "org1.healthcare.biznet.Patient"
+    operation: READ
+    resource: "org1.healthcare.biznet.Doctor"
+    action: ALLOW
+}
+
+rule AppointmentRule3 {
+    description: "Grant the prescription report share only to the doctor or the patient "
+    participant: "org1.healthcare.biznet.Patient"
+    operation: CREATE
+    resource: "org1.healthcare.biznet.Appointment"
+    action: ALLOW
+}
+rule AppointmentRule2{
+  description: "Grant the prescription report share only to the doctor or the patient "
+  participant(p): "org1.healthcare.biznet.Patient"
+  operation: CREATE,READ
+  resource(tx): "org1.healthcare.biznet.CreateAppointment"
+  condition:(true)
+  action: ALLOW
+
+}
+
+rule AppointmentRule1{
+  description: "Grant the prescription report share only to the doctor or the patient "
+  participant(p): "org1.healthcare.biznet.Patient"
+  operation: READ
+  resource(r): "org1.healthcare.biznet.Appointment"
+  condition: (r.byPatient.getIdentifier() == p.getIdentifier())
+  action: ALLOW
+
+}
+
+
+
 rule NetworkAdminUser {
     description: "Grant business network administrators full access to user resources"
     participant: "org.hyperledger.composer.system.NetworkAdmin"
@@ -28,13 +65,13 @@ rule NetworkAdminSystem {
     action: ALLOW
 }
 
-rule Default {
-    description: "Allow all participants access to all resources"
-    participant: "ANY"
-    operation: ALL
-    resource: "org1.healthcare.biznet.*"
-    action: ALLOW
-}
+// rule Default {
+//     description: "Allow all participants access to all resources"
+//     participant: "ANY"
+//     operation: ALL
+//     resource: "org1.healthcare.biznet.*"
+//     action: ALLOW
+// }
 
 rule SystemACL {
   description:  "System ACL to permit all access"
