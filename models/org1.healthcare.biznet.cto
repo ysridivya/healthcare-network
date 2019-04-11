@@ -49,7 +49,15 @@ asset LabReport identified by reportID {
   --> Doctor doctor optional
 }
 
-enum ReportType {
+asset ReassignReportRequest identified by RequestId {
+  o String RequestId
+  o String newDoctor
+  --> Doctor oldDoctor
+  --> PatientReport report
+  --> Patient patientId
+}
+
+enum ReportType { // Not in Use currently can be removed later if not found any use
   o DoctorReport
   o LabReport
   o Prescription
@@ -129,6 +137,21 @@ transaction RevokeReferral {
 transaction AllowReferral {
   --> Patient ownerPatient
   --> PatientReport Report
+}
+
+// Request doctor change intiated by doctor
+transaction RequestDoctorChange {
+  o String reqId
+  o String reportId
+  o String newDoctor
+  --> Doctor byDoctor
+}
+
+// Approves or denies doctor requests for change in doctor
+transaction ApproveRequestDoctorChange {
+  o Boolean approve
+  --> ReassignReportRequest toReassignRequest
+  --> Patient byPatient
 }
 
 /*
