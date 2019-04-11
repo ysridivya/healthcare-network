@@ -58,7 +58,6 @@ asset ReassignReportRequest identified by RequestId {
   --> Patient patientId
 }
 
-<<<<<<< HEAD
 
 asset ShareReport identified by shareId{
   o String shareId
@@ -68,13 +67,13 @@ asset ShareReport identified by shareId{
   o DateTime sharedOn
   o DateTime expiresOn
   o ParticipantType participantType default="Doctor"
-=======
+}
+
 asset DoctorSchedule identified by doctorSchedule {
   o String doctorSchedule
   o String doctorId
   o DateTime scheduleDate
   o String[] patientSlot
->>>>>>> 3c5da1bda654cc2c9d23f3dea0b353f87851fb55
 }
 
 enum ReportType { // Not in Use currently can be removed later if not found any use
