@@ -13,11 +13,9 @@ Secure file sharing solution for healthcare
 1. composer archive create --sourceType dir --sourceName . # To generate BNA file in the current directory 
 2. composer network install --archiveFile healthcare-network@0.0.1.bna --card PeerAdmin@hlfv1 # To install and deploy the network to our local Fabric runtime using the PeerAdmin user
 3. composer network start --networkName healthcare-network --networkVersion 0.0.1 --networkAdmin admin --networkAdminEnrollSecret adminpw --card PeerAdmin@hlfv1 --file healthcare-admin.card # To deploy the network to our local Fabric runtime using the PeerAdmin user
-4. composer card import --file healthcare-admin.card # To import the cards generated earlier 
+4. composer card import --file admin@healthcare-network.card # To import the cards generated earlier 
 5. composer network ping --card admin@healthcare-network # To test whether network is running or not.
-6.. composer-playground
 
 
 ## Important Links : 
 1. https://hyperledger.github.io/composer/latest/reference/js_scripts.html
-2. https://hyperledger.github.io/composer/v0.19/reference/acl_language
