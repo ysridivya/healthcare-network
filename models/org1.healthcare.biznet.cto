@@ -57,13 +57,29 @@ asset ReassignReportRequest identified by RequestId {
   --> Patient patientId
 }
 
+
+asset ShareReport identified by shareId{
+  o String shareId
+  o String reportId
+  --> Participant sharedTo
+  o Boolean isRevoked
+  o DateTime sharedOn
+  o DateTime expiresOn
+  o ParticipantType participantType default="Doctor"
+}
+
 enum ReportType { // Not in Use currently can be removed later if not found any use
   o DoctorReport
   o LabReport
   o Prescription
 }
 
-participant Patient identified by PatientId {
+enum ParticipantType { // Not in Use currently can be removed later if not found any use
+  o Doctor
+  o Patient
+}
+
+participant Patient identified by PatientId extends Participant{
   o String PatientId
   o String Name
   o String Age
@@ -71,7 +87,7 @@ participant Patient identified by PatientId {
   o String phoneNumber
 }
 
-participant Doctor identified by DoctorId {
+participant Doctor identified by DoctorId extends Participant{
   o String DoctorId
   o String Name
   o String Age
@@ -152,6 +168,17 @@ transaction ApproveRequestDoctorChange {
   o Boolean approve
   --> ReassignReportRequest toReassignRequest
   --> Patient byPatient
+}
+
+
+transaction Share {
+  o String reportId
+  o String shareId
+  o String sharedWithId
+  o String ownerId
+  o Integer numberOfDays default=10
+  o ParticipantType participantType default="Doctor"
+  o Boolean isRevoking default=false
 }
 
 /*
