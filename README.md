@@ -7,7 +7,7 @@ Secure file sharing solution for healthcare
 1. export FABRIC_VERSION=hlfv12 #To specify version we want!
 2. ./downloadFabric.sh # To download and extract the tools required to install Hyperledger Fabric. One time only.
 3. ./startFabric.sh  # To start fabric runtime.
-4. ./createPeerAdminCard.sh # To generate cards analogous to real life business cards, so as to join the network
+4. ./createPeerAdminCard.sh # To genefsdfrate cards analogous to real life business cards, so as to join the network
 
 ## Starting healthcare network:
 1. composer archive create --sourceType dir --sourceName . # To generate BNA file in the current directory 
