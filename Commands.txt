@@ -63,3 +63,11 @@ If you get authorization failed use the following :
 
 Ignore the package.json
 git update-index --assume-unchanged package.json 
+
+Issuing card
+composer identity issue -c admin@healthcare-network -u d3 -a "org1.healthcare.biznet.Doctor#3" 
+composer card import --file d3@healthcare-network.card
+
+To generate card for the participants:
+./genid.sh "org1.healthcare.biznet.Doctor#4" d4
+./genid.sh "resource_id" userid

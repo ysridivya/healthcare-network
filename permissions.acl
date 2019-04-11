@@ -12,42 +12,69 @@
  * limitations under the License.
  */
 
-rule AppointmentRule4 {
-    description: "Grant the prescription report share only to the doctor or the patient "
+rule AppointmentDoc1 {
+    description: "Doctor can view Appointment created for him "
+    participant(p): "org1.healthcare.biznet.Doctor"
+    operation: READ
+    resource(r): "org1.healthcare.biznet.Appointment"
+    condition: (r.forDoctor.getIdentifier() == p.getIdentifier())
+    action: ALLOW
+}
+
+rule AppointmentDoc2 {
+    description: "Doctor can view the transaction which created the appointment for him "
+    participant(p): "org1.healthcare.biznet.Doctor"
+    operation: READ
+    resource(r): "org1.healthcare.biznet.CreateAppointment"
+    condition: (r.forDoctor == p.getIdentifier())
+    action: ALLOW
+}
+
+rule AppointmentPat1{
+  description: "Patient can only read his appointment "
+  participant(p): "org1.healthcare.biznet.Patient"
+  operation: READ
+  resource(r): "org1.healthcare.biznet.Appointment"
+  condition: (r.byPatient.getIdentifier() == p.getIdentifier())
+  action: ALLOW
+}
+
+rule AppointmentPat2{
+  description: "Patient can initiate a create appointment transaction for himself "
+  participant(p): "org1.healthcare.biznet.Patient"
+  operation: CREATE
+  resource(r): "org1.healthcare.biznet.CreateAppointment"
+  condition: (r.byPatient == p.getIdentifier())
+  action: ALLOW
+
+}
+
+rule AppointmentPat3 {
+    description: "Patient can create a new Appintment resource only through the Create appointment Transaction "
+    participant(p): "org1.healthcare.biznet.Patient"
+    operation: CREATE
+    resource: "org1.healthcare.biznet.Appointment"
+    transaction(t): "org1.healthcare.biznet.CreateAppointment"
+    condition: (t.byPatient == p.getIdentifier())
+    action: ALLOW
+}
+
+rule AppointmentPat4 {
+    description: "Patient can read Doctor Participants "
     participant: "org1.healthcare.biznet.Patient"
     operation: READ
     resource: "org1.healthcare.biznet.Doctor"
     action: ALLOW
 }
 
-rule AppointmentRule3 {
-    description: "Grant the prescription report share only to the doctor or the patient "
-    participant: "org1.healthcare.biznet.Patient"
-    operation: CREATE
-    resource: "org1.healthcare.biznet.Appointment"
-    action: ALLOW
-}
-rule AppointmentRule2{
-  description: "Grant the prescription report share only to the doctor or the patient "
-  participant(p): "org1.healthcare.biznet.Patient"
-  operation: CREATE,READ
-  resource(tx): "org1.healthcare.biznet.CreateAppointment"
-  condition:(true)
-  action: ALLOW
-
-}
-
-rule AppointmentRule1{
-  description: "Grant the prescription report share only to the doctor or the patient "
+rule AppointmentPat5{
+  description: "Patient can initiate a read appointment transaction for himself "
   participant(p): "org1.healthcare.biznet.Patient"
   operation: READ
-  resource(r): "org1.healthcare.biznet.Appointment"
-  condition: (r.byPatient.getIdentifier() == p.getIdentifier())
+  resource(r): "org1.healthcare.biznet.CreateAppointment"
+  condition: (r.byPatient == p.getIdentifier())
   action: ALLOW
-
 }
-
-
 
 rule NetworkAdminUser {
     description: "Grant business network administrators full access to user resources"
