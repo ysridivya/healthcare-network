@@ -22,6 +22,7 @@ asset Appointment identified by appointmentId{
   o String appointmentId
   o String appointmentTime
   o Boolean completed
+  o Integer slot 
   --> Patient byPatient
   --> Doctor forDoctor
 }
@@ -55,6 +56,13 @@ asset ReassignReportRequest identified by RequestId {
   --> Doctor oldDoctor
   --> PatientReport report
   --> Patient patientId
+}
+
+asset DoctorSchedule identified by doctorSchedule {
+  o String doctorSchedule
+  o String doctorId
+  o DateTime scheduleDate
+  o String[] patientSlot
 }
 
 enum ReportType { // Not in Use currently can be removed later if not found any use
@@ -98,6 +106,13 @@ participant TestLab identified by labId {
 transaction CreateAppointment { //Creates asset Appointment with DoctorId and PatientId
   o String forDoctor
   o String byPatient
+  o DateTime scheduleDate
+
+}
+
+transaction DoctorAvailability{
+  o String Doctor
+  o DateTime scheduleDate
 }
 
 transaction ResolveAppointment { // Creates PatientReport and Prescription
@@ -164,6 +179,10 @@ event AppointmentEvent {
   o String byPatient
 }
 
+event DoctorAvailabilityEvent {
+  o String Doctor
+  o String Message
+}
 /*
 * More things go here
 */

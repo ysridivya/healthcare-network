@@ -12,6 +12,7 @@
  * limitations under the License.
  */
 
+
 rule AppointmentDoc1 {
     description: "Doctor can view Appointment created for him "
     participant(p): "org1.healthcare.biznet.Doctor"
@@ -28,6 +29,34 @@ rule AppointmentDoc2 {
     resource(r): "org1.healthcare.biznet.CreateAppointment"
     condition: (r.forDoctor == p.getIdentifier())
     action: ALLOW
+}
+
+
+rule AppointmentDoc3 {
+    description: "Doctor can view the schedules for him "
+    participant(p): "org1.healthcare.biznet.Doctor"
+    operation: READ
+    resource(r): "org1.healthcare.biznet.DoctorSchedule"
+    condition: (r.doctorId == p.getIdentifier())
+    action: ALLOW
+}
+
+rule AppointmentDoc4{
+  description: "Patient can view a DoctorSchedule only through DoctorAvailability transaction"
+  participant(p): "org1.healthcare.biznet.Doctor"
+  operation: READ
+  resource(r): "org1.healthcare.biznet.DoctorSchedule"
+  transaction(t): "org1.healthcare.biznet.DoctorAvailability"
+  condition: (true)
+  action: ALLOW
+}
+
+rule AppointmentDoc5{
+  description: "Patient can create a DoctorAvailability transaction "
+  participant: "org1.healthcare.biznet.Doctor"
+  operation: CREATE,READ
+  resource: "org1.healthcare.biznet.DoctorAvailability"
+  action: ALLOW
 }
 
 rule AppointmentPat1{
@@ -73,6 +102,34 @@ rule AppointmentPat5{
   operation: READ
   resource(r): "org1.healthcare.biznet.CreateAppointment"
   condition: (r.byPatient == p.getIdentifier())
+  action: ALLOW
+}
+
+rule AppointmentPat6{
+  description: "Patient can create view and update a DoctorSchedule "
+  participant(p): "org1.healthcare.biznet.Patient"
+  operation: CREATE,READ,UPDATE
+  resource(r): "org1.healthcare.biznet.DoctorSchedule"
+  transaction(t): "org1.healthcare.biznet.CreateAppointment"
+  condition: (t.byPatient == p.getIdentifier())
+  action: ALLOW
+}
+
+rule AppointmentPat7{
+  description: "Patient can view a DoctorSchedule only through DoctorAvailability transaction"
+  participant(p): "org1.healthcare.biznet.Patient"
+  operation: READ
+  resource(r): "org1.healthcare.biznet.DoctorSchedule"
+  transaction(t): "org1.healthcare.biznet.DoctorAvailability"
+  condition: (true)
+  action: ALLOW
+}
+
+rule AppointmentPat8{
+  description: "Patient can create a DoctorAvailability transaction "
+  participant: "org1.healthcare.biznet.Patient"
+  operation: CREATE,READ
+  resource: "org1.healthcare.biznet.DoctorAvailability"
   action: ALLOW
 }
 
