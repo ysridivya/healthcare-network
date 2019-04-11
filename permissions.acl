@@ -164,3 +164,13 @@ rule SystemACL {
   resource: "org.hyperledger.composer.system.**"
   action: ALLOW
 }
+
+rule ShareReportACL {
+    description: "Description of the ACL rule"
+    participant(m): "org1.healthcare.biznet.Patient"
+    operation: ALL
+    resource(v): "org1.healthcare.biznet.ShareReport"
+    transaction(t): "org1.healthcare.biznet.Share"
+    condition: (true)
+    action: ALLOW
+}
