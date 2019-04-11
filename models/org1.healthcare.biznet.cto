@@ -18,17 +18,26 @@
 
 namespace org1.healthcare.biznet
 
+//Vishal
+asset RequestLabReport identified by requestID {
+  o String requestID
+  o String requestTime
+  --> Doctor fromDoctor
+  --> TestLab toLab
+  --> Patient forPatient
+}
+
 asset Appointment identified by appointmentId{
   o String appointmentId
   o String appointmentTime
   o Boolean completed
-  o Integer slot 
+  o Integer slot
   --> Patient byPatient
   --> Doctor forDoctor
 }
 
 asset PatientReport identified by reportId {
-  o String reportId 
+  o String reportId
   --> Patient ownerPatient
   --> Doctor creatingDoctor
   o String reportMessage //patient and doctor decide this during appointment
@@ -119,6 +128,13 @@ participant TestLab identified by labId {
   o String labName
 }
 
+//Vishal
+transaction ReqLabReport {
+  --> Doctor fromDoctor
+  o String  PatientId
+  o String LabID
+}
+
 transaction CreateAppointment { //Creates asset Appointment with DoctorId and PatientId
   o String forDoctor
   o String byPatient
@@ -149,7 +165,7 @@ transaction ProcessPrescription {
 transaction GenerateLabReport {
   o String TestsReport
   o String DoctorId optional
-  o String PatientId 
+  o String PatientId
   o String LabId
 }
 
@@ -209,6 +225,14 @@ event AppointmentEvent {
 event DoctorAvailabilityEvent {
   o String Doctor
   o String Message
+}
+
+//Vishal
+event RequestLabReportEvent {
+  o RequestLabReport new_request
+  o String fromDoctor
+  o String toLab
+  o String forPatient
 }
 /*
 * More things go here

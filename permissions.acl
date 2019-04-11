@@ -13,6 +13,36 @@
  */
 
 
+ rule RequestLabReportRule1 {
+      description: "Doctor can request lab report only through ReqLabReport Transaction"
+      participant(p): "org1.healthcare.biznet.Doctor"
+      operation: CREATE
+      resource: "org1.healthcare.biznet.RequestLabReport"
+      transaction(t): "org1.healthcare.biznet.ReqLabReport"
+      condition: (p.getIdentifier() == t.fromDoctor.getIdentifier())
+      action: ALLOW
+  }
+
+  rule RequestLabReportRule2 {
+       description: "Doctor can request lab report only through ReqLabReport Transaction"
+       participant(p): "org1.healthcare.biznet.Patient"
+       operation: READ
+       resource: "org1.healthcare.biznet.RequestLabReport"
+       transaction(t): "org1.healthcare.biznet.ReqLabReport"
+       condition: (p.getIdentifier() == t.PatientId)
+       action: ALLOW
+   }
+
+   rule RequestLabReportRule3 {
+        description: "Doctor can request lab report only through ReqLabReport Transaction"
+        participant(p): "org1.healthcare.biznet.TestLab"
+        operation: READ
+        resource: "org1.healthcare.biznet.RequestLabReport"
+        transaction(t): "org1.healthcare.biznet.ReqLabReport"
+        condition: (p.getIdentifier() == t.LabID)
+        action: ALLOW
+    }
+
 rule AppointmentDoc1 {
     description: "Doctor can view Appointment created for him "
     participant(p): "org1.healthcare.biznet.Doctor"
