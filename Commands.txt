@@ -61,4 +61,5 @@ If you get authorization failed use the following :
 7. composer card import --file healthcare-admin.card
 8. composer network ping --card admin@healthcare-network
 
-
+Ignore the package.json
+git update-index --assume-unchanged package.json 
