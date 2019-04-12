@@ -176,17 +176,6 @@ transaction GenerateLabReport {
   o String LabId
 }
 
-
-transaction RevokeReferral {
-  --> Patient ownerPatient
-  --> PatientReport Report
-}
-
-transaction AllowReferral {
-  --> Patient ownerPatient
-  --> PatientReport Report
-}
-
 // Request doctor change intiated by doctor
 transaction RequestDoctorChange {
   o String reqId
@@ -215,7 +204,6 @@ transaction Share {
 
 transaction ChangeOfDoctor {
   --> Patient byPatient
-  // --> PatientReport Report
   o String ReportId
   o String newDoctorId
 }

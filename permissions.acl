@@ -205,3 +205,25 @@ rule ShareReportACL {
     action: ALLOW
 }
 
+rule ChangeOfDoctorRule1 {
+    description: "Request can only be placed by a patient"
+    participant(m): "org1.healthcare.biznet.Patient"
+    operation: ALL
+    resource(v): "org1.healthcare.biznet.ChangeDoctorHelperState"
+    transaction(t): "org1.healthcare.biznet.ChangeOfDoctor"
+    condition: (true)
+    action: ALLOW
+}
+
+rule ChangeOfDoctorRule2 {
+    description: "Request can only be approved by a Doctor"
+    participant(m): "org1.healthcare.biznet.Doctor"
+    operation: ALL
+    resource(v): "org1.healthcare.biznet.ChangeDoctorHelperState"
+    transaction(t): "org1.healthcare.biznet.ChangeOfDoctorApproval"
+    condition: (true)
+    action: ALLOW
+}
+
+
+
