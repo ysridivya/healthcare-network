@@ -85,6 +85,13 @@ asset DoctorSchedule identified by doctorSchedule {
   o String[] patientSlot
 }
 
+asset ChangeDoctorHelperState identified by stateId {
+  o String stateId
+  o String PatientId
+  o String newDoctorId
+  --> PatientReport Report
+}
+
 enum ReportType { // Not in Use currently can be removed later if not found any use
   o DoctorReport
   o LabReport
@@ -169,12 +176,6 @@ transaction GenerateLabReport {
   o String LabId
 }
 
-/* To be Verified */
-transaction ReferToAnotherDoctor {
-  --> Doctor oldDoctor
-  --> Doctor newDoctor
-  --> PatientReport Report
-}
 
 transaction RevokeReferral {
   --> Patient ownerPatient
@@ -212,6 +213,19 @@ transaction Share {
   o Boolean isRevoking default=false
 }
 
+transaction ChangeOfDoctor {
+  --> Patient byPatient
+  // --> PatientReport Report
+  o String ReportId
+  o String newDoctorId
+}
+
+transaction ChangeOfDoctorApproval {
+  --> Doctor newDoctor
+  --> ChangeDoctorHelperState helperState
+  o Boolean Approval
+}
+
 /*
 * Events go here
 */
@@ -234,6 +248,18 @@ event RequestLabReportEvent {
   o String toLab
   o String forPatient
 }
+event ChangeOfDoctorEvent {
+  o String newDoctorId
+  o String PatientId
+  o String Message
+}
+  
+event ChangeOfDoctorApprovalRejectedEvent {
+  --> Patient RejectedPatient
+  o String DoctorId
+  o String Message
+}
+
 /*
 * More things go here
 */
