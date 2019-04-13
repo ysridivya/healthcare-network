@@ -232,7 +232,7 @@ rule TestLabRule5{
 rule AppointmentDoc1 {
     description: "Doctor can view Appointment created for him "
     participant(p): "org1.healthcare.biznet.Doctor"
-    operation: READ
+    operation: READ,UPDATE
     resource(r): "org1.healthcare.biznet.Appointment"
     condition: (r.forDoctor.getIdentifier() == p.getIdentifier())
     action: ALLOW
@@ -593,19 +593,74 @@ rule ShareReportACL {
 rule ChangeOfDoctorRule1 {
     description: "Request can only be placed by a patient"
     participant(m): "org1.healthcare.biznet.Patient"
-    operation: ALL
+    operation: CREATE
+    resource(t): "org1.healthcare.biznet.ChangeOfDoctor"
+    condition: (true)
+    action: ALLOW
+}
+
+rule ChangeOfDoctorRule2 {
+    description: "Patient can access ChangeDoctorHelperState only through transaction"
+    participant(m): "org1.healthcare.biznet.Patient"
+    operation: CREATE, UPDATE
     resource(v): "org1.healthcare.biznet.ChangeDoctorHelperState"
     transaction(t): "org1.healthcare.biznet.ChangeOfDoctor"
     condition: (true)
     action: ALLOW
 }
 
-rule ChangeOfDoctorRule2 {
+rule ChangeOfDoctorRule3 {
+    description: "Patient can see ChangeDoctorHelperState if it is created by him"
+    participant(m): "org1.healthcare.biznet.Patient"
+    operation: READ
+    resource(v): "org1.healthcare.biznet.ChangeDoctorHelperState"
+    condition: (m.getIdentifier() == v.PatientId)
+    action: ALLOW
+}
+
+rule ChangeOfDoctorApprovalRule1 {
     description: "Request can only be approved by a Doctor"
+    participant(d): "org1.healthcare.biznet.Doctor"
+    operation: CREATE
+    resource(t): "org1.healthcare.biznet.ChangeOfDoctorApproval"
+    condition: (true)
+    action: ALLOW
+}
+
+rule ChangeOfDoctorApprovalRule2 {
+    description: "Doctor can see Patients through the transaction"
     participant(m): "org1.healthcare.biznet.Doctor"
-    operation: ALL
+    operation: READ
+    resource(v): "org1.healthcare.biznet.Patient"
+    condition: (true)
+    action: ALLOW
+}
+
+rule ChangeOfDoctorApprovalRule3 {
+    description: "ChangeDoctorHelperState can only be modified by a Doctor"
+    participant(m): "org1.healthcare.biznet.Doctor"
+    operation: READ, DELETE
     resource(v): "org1.healthcare.biznet.ChangeDoctorHelperState"
     transaction(t): "org1.healthcare.biznet.ChangeOfDoctorApproval"
+    condition: (true)
+    action: ALLOW
+}
+
+rule ChangeOfDoctorApprovalRule4 {
+    description: "Doctor can see ChangeDoctorHelperState if it is meant for him"
+    participant(m): "org1.healthcare.biznet.Doctor"
+    operation: READ
+    resource(v): "org1.healthcare.biznet.ChangeDoctorHelperState"
+    condition: (m.getIdentifier() == v.newDoctorId)
+    action: ALLOW
+}
+
+rule ChangeOfDoctorApprovalRule5 {
+    description: "Doctor can see and update Patient Report through the transaction"
+    participant(m): "org1.healthcare.biznet.Doctor"
+    operation: READ, UPDATE
+    resource(v): "org1.healthcare.biznet.PatientReport"
+  	transaction(t): "org1.healthcare.biznet.ChangeOfDoctorApproval"
     condition: (true)
     action: ALLOW
 }

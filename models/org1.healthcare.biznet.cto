@@ -161,7 +161,6 @@ transaction ResolveAppointment { // Creates PatientReport and Prescription
   o String reportMessage
   o String PrescriptionText
   o String pharmacyId
-  o Boolean canBeReferred  //added
 }
 
 transaction ProcessPrescription {
