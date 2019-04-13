@@ -77,3 +77,9 @@ To generate card for the participants:
 
 To restart the REST server using the same options, issue the following command:
 composer-rest-server -c admin@healthcare-network -n never -d n -w true
+
+./genid.sh "org1.healthcare.biznet.Doctor#5" d5
+./genid.sh "resource_id" userid
+
+Use ./genpa.sh to generate 3 Doctors and 3 Patients
+
