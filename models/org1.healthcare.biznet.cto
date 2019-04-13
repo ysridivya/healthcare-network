@@ -20,12 +20,14 @@ namespace org1.healthcare.biznet
 
 //Vishal
 asset RequestLabReport identified by requestID {
+  --> PatientReport report
+  --> TestLab toLab
+  o Boolean authorized
   o String requestID
   o String requestTime
-  --> Doctor fromDoctor
-  --> TestLab toLab
-  --> Patient forPatient
 }
+
+
 
 asset Appointment identified by appointmentId{
   o String appointmentId
@@ -139,6 +141,7 @@ participant TestLab identified by labId {
 //Vishal
 transaction ReqLabReport {
   --> Doctor fromDoctor
+  o String reportID
   o String  PatientId
   o String LabID
 }
@@ -238,6 +241,7 @@ event RequestLabReportEvent {
   o String toLab
   o String forPatient
 }
+
 event ChangeOfDoctorEvent {
   o String newDoctorId
   o String PatientId
