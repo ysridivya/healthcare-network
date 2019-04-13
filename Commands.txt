@@ -71,3 +71,9 @@ composer card import --file d3@healthcare-network.card
 To generate card for the participants:
 ./genid.sh "org1.healthcare.biznet.Doctor#4" d4
 ./genid.sh "resource_id" userid
+
+
+
+
+To restart the REST server using the same options, issue the following command:
+composer-rest-server -c admin@healthcare-network -n never -d n -w true
