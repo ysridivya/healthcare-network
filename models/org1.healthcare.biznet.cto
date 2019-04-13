@@ -49,6 +49,7 @@ asset Prescription identified by receiptId {
   --> Doctor byDoctor
   --> Pharmacy toPharmacy
   o String PrescriptionText
+  o Boolean completed
 }
 
 asset LabReport identified by reportID {
@@ -165,8 +166,9 @@ transaction ResolveAppointment { // Creates PatientReport and Prescription
 
 transaction ProcessPrescription {
   --> Prescription toProcessPrescription
-  --> Patient forPatient
-  --> Doctor byDoctor
+  o String patientId
+  o String doctorId
+  o String pharmacyId
 }
 
 transaction GenerateLabReport {
@@ -241,7 +243,7 @@ event ChangeOfDoctorEvent {
   o String PatientId
   o String Message
 }
-  
+
 event ChangeOfDoctorApprovalRejectedEvent {
   --> Patient RejectedPatient
   o String DoctorId

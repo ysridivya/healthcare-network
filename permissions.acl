@@ -43,6 +43,33 @@
         action: ALLOW
     }
 
+    rule ProcessPrescription1 {
+        description: "Only Pharmacy can process Prescription. (Update Prescription to completed)"
+        participant(p): "org1.healthcare.biznet.Pharmacy"
+        operation: UPDATE
+        resource(r): "org1.healthcare.biznet.Prescription"
+        condition: (r.toPharmacy.getIdentifier() == p.getIdentifier())
+        action: ALLOW
+    }
+
+    rule ProcessPrescription2 {
+        description: "Only Pharmacy can process Prescription. (Update Prescription to completed)"
+        participant(p): "org1.healthcare.biznet.Doctor"
+        operation: READ
+        resource(r): "org1.healthcare.biznet.Prescription"
+        condition: (r.byDoctor.getIdentifier() == p.doctorId)
+        action: ALLOW
+    }
+
+    rule ProcessPrescription3 {
+        description: "Only Pharmacy can process Prescription. (Update Prescription to completed)"
+        participant(p): "org1.healthcare.biznet.Patient"
+        operation: READ
+        resource(r): "org1.healthcare.biznet.Prescription"
+        condition: (r.forPatient.getIdentifier() == p.patientId)
+        action: ALLOW
+    }
+
 rule AppointmentDoc1 {
     description: "Doctor can view Appointment created for him "
     participant(p): "org1.healthcare.biznet.Doctor"
@@ -187,7 +214,7 @@ rule ApproveReassignRequest {
   participant(p): "org1.healthcare.biznet.Patient"
   operation: READ, UPDATE, DELETE
   resource(r): "org1.healthcare.biznet.ReassignReportRequest"
-  transaction(tx): "org1.healthcare.biznet.ApproveRequestDoctorChange" 
+  transaction(tx): "org1.healthcare.biznet.ApproveRequestDoctorChange"
   condition: (p.getIdentifier() == tx.byPatient.getIdentifier())
   action: ALLOW
 }
@@ -253,6 +280,3 @@ rule ChangeOfDoctorRule2 {
     condition: (true)
     action: ALLOW
 }
-
-
-
