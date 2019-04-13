@@ -12,6 +12,165 @@
  * limitations under the License.
  */
 
+rule PatientRule1 {
+    description: "Patient can read Lab Participants "
+    participant: "org1.healthcare.biznet.Patient"
+    operation: READ
+    resource: "org1.healthcare.biznet.TestLab"
+    action: ALLOW
+}
+
+rule PatientRule2 {
+    description: "Patient can read Pharmacy Participants "
+    participant: "org1.healthcare.biznet.Patient"
+    operation: READ
+    resource: "org1.healthcare.biznet.Pharmacy"
+    action: ALLOW
+}
+
+rule PatientRule3 {
+    description: "Patient can read TestLab Participants "
+    participant: "org1.healthcare.biznet.Patient"
+    operation: READ
+    resource: "org1.healthcare.biznet.TestLab"
+    action: ALLOW
+}
+
+rule PatientRule4 {
+    description: "Patient can read Hospital Participants "
+    participant: "org1.healthcare.biznet.Patient"
+    operation: READ
+    resource: "org1.healthcare.biznet.Hospital"
+    action: ALLOW
+}
+
+rule PatientRule5 {
+    description: "Patient can read Doctor Participants "
+    participant: "org1.healthcare.biznet.Patient"
+    operation: READ
+    resource: "org1.healthcare.biznet.Doctor"
+    action: ALLOW
+}
+
+rule DoctorRule1 {
+    description: "Doctor can read Lab Participants "
+    participant: "org1.healthcare.biznet.Doctor"
+    operation: READ
+    resource: "org1.healthcare.biznet.TestLab"
+    action: ALLOW
+}
+
+rule DoctorRule2 {
+    description: "Doctor can read Pharmacy Participants "
+    participant: "org1.healthcare.biznet.Doctor"
+    operation: READ
+    resource: "org1.healthcare.biznet.Pharmacy"
+    action: ALLOW
+}
+
+rule DoctorRule3 {
+    description: "Doctor can read TestLab Participants "
+    participant: "org1.healthcare.biznet.Doctor"
+    operation: READ
+    resource: "org1.healthcare.biznet.TestLab"
+    action: ALLOW
+}
+
+rule DoctorRule4 {
+    description: "Doctor can read Hospital Participants "
+    participant: "org1.healthcare.biznet.Doctor"
+    operation: READ
+    resource: "org1.healthcare.biznet.Hospital"
+    action: ALLOW
+}
+
+rule DoctorRule5{
+  description: "Doctor can see all doctors "
+  participant: "org1.healthcare.biznet.Doctor"
+  operation: READ
+  resource: "org1.healthcare.biznet.Doctor"
+  action: ALLOW
+}
+
+rule PharmacyRule1 {
+    description: "Pharmacy can read Lab Participants "
+    participant: "org1.healthcare.biznet.Pharmacy"
+    operation: READ
+    resource: "org1.healthcare.biznet.TestLab"
+    action: ALLOW
+}
+
+rule PharmacyRule2 {
+    description: "Pharmacy can read Pharmacy Participants "
+    participant: "org1.healthcare.biznet.Pharmacy"
+    operation: READ
+    resource: "org1.healthcare.biznet.Pharmacy"
+    action: ALLOW
+}
+
+rule PharmacyRule3 {
+    description: "Pharmacy can read TestLab Participants "
+    participant: "org1.healthcare.biznet.Pharmacy"
+    operation: READ
+    resource: "org1.healthcare.biznet.TestLab"
+    action: ALLOW
+}
+
+rule PharmacyRule4 {
+    description: "Pharmacy can read Hospital Participants "
+    participant: "org1.healthcare.biznet.Pharmacy"
+    operation: READ
+    resource: "org1.healthcare.biznet.Hospital"
+    action: ALLOW
+}
+
+rule PharmacyRule5{
+  description: "Pharmacy can see all doctors "
+  participant: "org1.healthcare.biznet.Pharmacy"
+  operation: READ
+  resource: "org1.healthcare.biznet.Doctor"
+  action: ALLOW
+}
+
+rule TestLabRule1 {
+    description: "TestLab can read Lab Participants "
+    participant: "org1.healthcare.biznet.TestLab"
+    operation: READ
+    resource: "org1.healthcare.biznet.TestLab"
+    action: ALLOW
+}
+
+rule TestLabRule2 {
+    description: "TestLab can read Pharmacy Participants "
+    participant: "org1.healthcare.biznet.TestLab"
+    operation: READ
+    resource: "org1.healthcare.biznet.Pharmacy"
+    action: ALLOW
+}
+
+rule TestLabRule3 {
+    description: "TestLab can read TestLab Participants "
+    participant: "org1.healthcare.biznet.TestLab"
+    operation: READ
+    resource: "org1.healthcare.biznet.TestLab"
+    action: ALLOW
+}
+
+rule TestLabRule4 {
+    description: "TestLab can read Hospital Participants "
+    participant: "org1.healthcare.biznet.TestLab"
+    operation: READ
+    resource: "org1.healthcare.biznet.Hospital"
+    action: ALLOW
+}
+
+rule TestLabRule5{
+  description: "TestLab can see all doctors "
+  participant: "org1.healthcare.biznet.TestLab"
+  operation: READ
+  resource: "org1.healthcare.biznet.Doctor"
+  action: ALLOW
+}
 
  rule RequestLabReportRule1 {
       description: "Doctor can request lab report only through ReqLabReport Transaction"
@@ -72,7 +231,7 @@ rule AppointmentDoc3 {
 }
 
 rule AppointmentDoc4{
-  description: "Patient can view a DoctorSchedule only through DoctorAvailability transaction"
+  description: "Doctor can view any doctor availability"
   participant(p): "org1.healthcare.biznet.Doctor"
   operation: READ
   resource(r): "org1.healthcare.biznet.DoctorSchedule"
@@ -82,12 +241,13 @@ rule AppointmentDoc4{
 }
 
 rule AppointmentDoc5{
-  description: "Patient can create a DoctorAvailability transaction "
+  description: "Doctor can create a DoctorAvailability transaction "
   participant: "org1.healthcare.biznet.Doctor"
   operation: CREATE,READ
   resource: "org1.healthcare.biznet.DoctorAvailability"
   action: ALLOW
 }
+
 
 rule AppointmentPat1{
   description: "Patient can only read his appointment "
@@ -118,13 +278,7 @@ rule AppointmentPat3 {
     action: ALLOW
 }
 
-rule AppointmentPat4 {
-    description: "Patient can read Doctor Participants "
-    participant: "org1.healthcare.biznet.Patient"
-    operation: READ
-    resource: "org1.healthcare.biznet.Doctor"
-    action: ALLOW
-}
+
 
 rule AppointmentPat5{
   description: "Patient can initiate a read appointment transaction for himself "
@@ -160,6 +314,79 @@ rule AppointmentPat8{
   participant: "org1.healthcare.biznet.Patient"
   operation: CREATE,READ
   resource: "org1.healthcare.biznet.DoctorAvailability"
+  action: ALLOW
+}
+
+rule LabReport1{
+  description: "Lab can generate or view the lab reports generated by them"
+  participant(p): "org1.healthcare.biznet.TestLab"
+  operation: CREATE,READ
+  resource(r): "org1.healthcare.biznet.LabReport"
+  condition: (p.getIdentifier()==r.lab.getIdentifier())
+  action: ALLOW
+}
+
+rule LabReport2{
+  description: "Patient can view only his/ her lab report"
+  participant(p): "org1.healthcare.biznet.Patient"
+  operation:READ
+  resource(r): "org1.healthcare.biznet.LabReport"
+  condition: (p.getIdentifier()==r.patient.getIdentifier())
+  action: ALLOW
+}
+rule LabReport3{
+  description: "Patient can transaction generates which his/her lab report"
+  participant(p): "org1.healthcare.biznet.Patient"
+  operation: READ
+  resource(r):"org1.healthcare.biznet.GenerateLabReport"
+  condition: (p.getIdentifier()==r.PatientId)
+  action: ALLOW
+}
+
+rule LabReport4{
+  description: "Doctor can view the lab report  which are prescribed by him"
+  participant(p): "org1.healthcare.biznet.Doctor"
+  operation: READ
+  resource(r):"org1.healthcare.biznet.LabReport"
+  condition: (p.getIdentifier()==r.doctor.getIdentifier())
+  action: ALLOW
+}
+
+rule LabReport5{
+  description: "Doctor can view the lab report transactions which are prescribed by him"
+  participant(p): "org1.healthcare.biznet.Doctor"
+  operation: READ
+  resource(r):"org1.healthcare.biznet.GenerateLabReport"
+  condition: (p.getIdentifier()==r.DoctorId)
+  action: ALLOW
+}
+
+rule LabReport6{
+  description: "Lab can view the transactions which generated the lab reports "
+  participant(p): "org1.healthcare.biznet.TestLab"
+  operation: CREATE,READ
+  resource(r):"org1.healthcare.biznet.GenerateLabReport"
+  condition: (p.getIdentifier()==r.LabId)
+  action: ALLOW
+}
+
+rule LabReport7{
+  description: "Lab can view the patient in the transaction"
+  participant(p): "org1.healthcare.biznet.TestLab"
+  operation: READ
+  resource(r):"org1.healthcare.biznet.Patient"
+  transaction(t):"org1.healthcare.biznet.GenerateLabReport"
+  condition: (p.getIdentifier()==t.LabId)
+  action: ALLOW
+}
+
+rule LabReport8{
+  description: "Lab can view the doctor in the transaction"
+  participant(p): "org1.healthcare.biznet.TestLab"
+  operation: READ
+  resource(r):"org1.healthcare.biznet.Doctor"
+  transaction(t):"org1.healthcare.biznet.GenerateLabReport"
+  condition: (p.getIdentifier()==t.LabId)
   action: ALLOW
 }
 
