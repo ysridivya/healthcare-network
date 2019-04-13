@@ -79,6 +79,8 @@ asset ShareReport identified by shareId{
   o DateTime sharedOn
   o DateTime expiresOn
   o ParticipantType participantType default="Doctor"
+  o String ownerId
+  o String reportMessage
 }
 
 asset DoctorSchedule identified by doctorSchedule {
@@ -164,7 +166,6 @@ transaction ResolveAppointment { // Creates PatientReport and Prescription
   o String reportMessage
   o String PrescriptionText
   o String pharmacyId
-  o Boolean canBeReferred  //added
 }
 
 transaction ProcessPrescription {

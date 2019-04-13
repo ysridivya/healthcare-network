@@ -232,7 +232,7 @@ rule TestLabRule5{
 rule AppointmentDoc1 {
     description: "Doctor can view Appointment created for him "
     participant(p): "org1.healthcare.biznet.Doctor"
-    operation: READ
+    operation: READ,UPDATE
     resource(r): "org1.healthcare.biznet.Appointment"
     condition: (r.forDoctor.getIdentifier() == p.getIdentifier())
     action: ALLOW
@@ -292,7 +292,6 @@ rule AppointmentPat2{
   resource(r): "org1.healthcare.biznet.CreateAppointment"
   condition: (r.byPatient == p.getIdentifier())
   action: ALLOW
-
 }
 
 rule AppointmentPat3 {
@@ -323,6 +322,71 @@ rule AppointmentPat6{
   resource(r): "org1.healthcare.biznet.DoctorSchedule"
   transaction(t): "org1.healthcare.biznet.CreateAppointment"
   condition: (t.byPatient == p.getIdentifier())
+  action: ALLOW
+}
+
+rule DoctorResolveApp {
+  description: "Resolve appointment by doctor"
+  participant(p): "org1.healthcare.biznet.Doctor"
+  operation: CREATE
+  resource(r): "org1.healthcare.biznet.ResolveAppointment"
+  condition: (r.appointment.forDoctor.getIdentifier() == p.getIdentifier())
+  action: ALLOW
+}
+
+rule DoctorCreatesReport {
+  description: "Doctor can create a patient report using transaction only."
+  participant(p): "org1.healthcare.biznet.Doctor"
+  operation: CREATE
+  resource(r): "org1.healthcare.biznet.PatientReport"
+  transaction(tx): "org1.healthcare.biznet.ResolveAppointment"
+  condition: (p.getIdentifier() == tx.appointment.forDoctor.getIdentifier())
+  action: ALLOW
+}
+
+rule DoctorCreatesPrescription {
+  description: "Doctor can create a patient prescription using transaction only."
+  participant(p): "org1.healthcare.biznet.Doctor"
+  operation: CREATE
+  resource(r): "org1.healthcare.biznet.Prescription"
+  transaction(tx): "org1.healthcare.biznet.ResolveAppointment"
+  condition: (p.getIdentifier() == tx.appointment.forDoctor.getIdentifier())
+  action: ALLOW
+}
+
+rule DoctorSeePatientReport {
+  description: "Doctor can see patient report."
+  participant(p): "org1.healthcare.biznet.Doctor"
+  operation: READ
+  resource(r): "org1.healthcare.biznet.PatientReport"
+  condition: (p.getIdentifier() == r.creatingDoctor.getIdentifier())
+  action: ALLOW
+}
+
+rule PatientCanSeeReport {
+  description: "Patient can see the report of himself by any doctor."
+  participant(p): "org1.healthcare.biznet.Patient"
+  operation: ALL
+  resource(r): "org1.healthcare.biznet.PatientReport"
+  condition: (p.getIdentifier() == r.ownerPatient.getIdentifier())
+  action: ALLOW
+}
+
+rule PatientCanSeePrescription {
+  description: "Patient can see the prescription of himself by any doctor."
+  participant(p): "org1.healthcare.biznet.Patient"
+  operation: ALL
+  resource(r): "org1.healthcare.biznet.Prescription"
+  condition: (p.getIdentifier() == r.forPatient.getIdentifier())
+  action: ALLOW
+}
+
+rule DoctorSeePrescription {
+  description: "Doctor can see prescription he wrote."
+  participant(p): "org1.healthcare.biznet.Doctor"
+  operation: READ,CREATE
+  resource(r): "org1.healthcare.biznet.Prescription"
+  condition: (p.getIdentifier() == r.byDoctor.getIdentifier())
   action: ALLOW
 }
 
@@ -420,10 +484,19 @@ rule LabReport8{
 rule RequestforReassignByDoctor{
   description: "Doctor initiates request to reassign doctor in report and this asset can only be created through transaction."
   participant(p): "org1.healthcare.biznet.Doctor"
-  operation: ALL
-  resource: "org1.healthcare.biznet.ReassignReportRequest"
+  operation: CREATE
+  resource(r): "org1.healthcare.biznet.ReassignReportRequest"
   transaction(t): "org1.healthcare.biznet.RequestDoctorChange"
   condition: (p.getIdentifier() == t.byDoctor.getIdentifier())
+  action: ALLOW
+}
+
+rule ReadRequestAssetByDoctor {
+  description: "Doctor can read a helper reassign request asset."
+  participant(p): "org1.healthcare.biznet.Doctor"
+  operation: READ,UPDATE,DELETE
+  resource(r): "org1.healthcare.biznet.ReassignReportRequest"
+  condition: (p.getIdentifier() == r.oldDoctor.getIdentifier())
   action: ALLOW
 }
 
@@ -432,7 +505,35 @@ rule ReadRequestOfPatientByDoctor {
   participant(p): "org1.healthcare.biznet.Patient"
   operation: READ
   resource(r): "org1.healthcare.biznet.ReassignReportRequest"
-  condition: (p.PatientId == r.patientId.getIdentifier())
+  condition: (p.getIdentifier() == r.patientId.getIdentifier())
+  action: ALLOW
+}
+
+rule ReplyToReqByDoctor {
+  description: "Patient replies to request by doctor through trransaction"
+  participant(p): "org1.healthcare.biznet.Patient"
+  operation: READ,DELETE
+  resource(res): "org1.healthcare.biznet.ReassignReportRequest"
+  transaction(tx): "org1.healthcare.biznet.ApproveRequestDoctorChange"
+  condition: (tx.byPatient.getIdentifier() == p.getIdentifier())
+  action: ALLOW
+}
+
+rule CreateRequestToChangeDoctorByDoctor {
+  description: "Doctor can create a request to change doctor."
+  participant(p): "org1.healthcare.biznet.Doctor"
+  operation: ALL
+  resource(r): "org1.healthcare.biznet.RequestDoctorChange"
+  condition: (p.getIdentifier() == r.byDoctor.getIdentifier() )
+  action: ALLOW
+}
+
+rule PatientCanCallApprove {
+  description: "Patient can call approve function."
+  participant(p): "org1.healthcare.biznet.Patient"
+  operation: CREATE
+  resource(r): "org1.healthcare.biznet.ApproveRequestDoctorChange"
+  condition: (p.getIdentifier() === r.byPatient.getIdentifier())
   action: ALLOW
 }
 
@@ -478,32 +579,123 @@ rule SystemACL {
   action: ALLOW
 }
 
-rule ShareReportACL {
-    description: "Description of the ACL rule"
+rule ShareTransaction {
+    description: "Transaction should only be created by patient when owner id is set"
+    participant(m): "org1.healthcare.biznet.Patient"
+    operation: ALL
+    resource(v): "org1.healthcare.biznet.Share"
+    condition: (m.getIdentifier() == v.ownerId)
+    action: ALLOW
+}
+
+rule ShareReport {
+    description: "Only owner of the report is allowed to change modify the share report"
     participant(m): "org1.healthcare.biznet.Patient"
     operation: ALL
     resource(v): "org1.healthcare.biznet.ShareReport"
-    transaction(t): "org1.healthcare.biznet.Share"
-    condition: (true)
+    condition: (m.getIdentifier() == v.ownerId)
     action: ALLOW
 }
+
+rule PatientReport_Owner {
+    description: "Patient Report can only be read by the patient"
+    participant(m): "org1.healthcare.biznet.Patient"
+    operation: READ
+    resource(v): "org1.healthcare.biznet.PatientReport"
+    condition: (m.getIdentifier() == v.ownerPatient.getIdentifier())
+    action: ALLOW
+}
+
+rule ShareReportPatientRead {
+    description: "Report can be read by the patient whom it is shared with(Patient)"
+    participant(m): "org1.healthcare.biznet.Patient"
+    operation: READ
+    resource(v): "org1.healthcare.biznet.ShareReport"
+    condition: (m.getIdentifier() == v.sharedTo.getIdentifier() && v.participantType == "Patient")
+    action: ALLOW
+}
+
+rule ShareReportDoctorRead {
+    description: "Report can be read by the patient whom it is shared with(Doctor)"
+    participant(m): "org1.healthcare.biznet.Doctor"
+    operation: READ
+    resource(v): "org1.healthcare.biznet.ShareReport"
+    condition: (m.getIdentifier() == v.sharedTo.getIdentifier() && v.participantType == "Doctor")
+    action: ALLOW
+}
+
 
 rule ChangeOfDoctorRule1 {
     description: "Request can only be placed by a patient"
     participant(m): "org1.healthcare.biznet.Patient"
-    operation: ALL
+    operation: CREATE
+    resource(t): "org1.healthcare.biznet.ChangeOfDoctor"
+    condition: (true)
+    action: ALLOW
+}
+
+rule ChangeOfDoctorRule2 {
+    description: "Patient can access ChangeDoctorHelperState only through transaction"
+    participant(m): "org1.healthcare.biznet.Patient"
+    operation: CREATE, UPDATE
     resource(v): "org1.healthcare.biznet.ChangeDoctorHelperState"
     transaction(t): "org1.healthcare.biznet.ChangeOfDoctor"
     condition: (true)
     action: ALLOW
 }
 
-rule ChangeOfDoctorRule2 {
+rule ChangeOfDoctorRule3 {
+    description: "Patient can see ChangeDoctorHelperState if it is created by him"
+    participant(m): "org1.healthcare.biznet.Patient"
+    operation: READ
+    resource(v): "org1.healthcare.biznet.ChangeDoctorHelperState"
+    condition: (m.getIdentifier() == v.PatientId)
+    action: ALLOW
+}
+
+rule ChangeOfDoctorApprovalRule1 {
     description: "Request can only be approved by a Doctor"
+    participant(d): "org1.healthcare.biznet.Doctor"
+    operation: CREATE
+    resource(t): "org1.healthcare.biznet.ChangeOfDoctorApproval"
+    condition: (true)
+    action: ALLOW
+}
+
+rule ChangeOfDoctorApprovalRule2 {
+    description: "Doctor can see Patients through the transaction"
     participant(m): "org1.healthcare.biznet.Doctor"
-    operation: ALL
+    operation: READ
+    resource(v): "org1.healthcare.biznet.Patient"
+    condition: (true)
+    action: ALLOW
+}
+
+rule ChangeOfDoctorApprovalRule3 {
+    description: "ChangeDoctorHelperState can only be modified by a Doctor"
+    participant(m): "org1.healthcare.biznet.Doctor"
+    operation: READ, DELETE
     resource(v): "org1.healthcare.biznet.ChangeDoctorHelperState"
     transaction(t): "org1.healthcare.biznet.ChangeOfDoctorApproval"
+    condition: (true)
+    action: ALLOW
+}
+
+rule ChangeOfDoctorApprovalRule4 {
+    description: "Doctor can see ChangeDoctorHelperState if it is meant for him"
+    participant(m): "org1.healthcare.biznet.Doctor"
+    operation: READ
+    resource(v): "org1.healthcare.biznet.ChangeDoctorHelperState"
+    condition: (m.getIdentifier() == v.newDoctorId)
+    action: ALLOW
+}
+
+rule ChangeOfDoctorApprovalRule5 {
+    description: "Doctor can see and update Patient Report through the transaction"
+    participant(m): "org1.healthcare.biznet.Doctor"
+    operation: READ, UPDATE
+    resource(v): "org1.healthcare.biznet.PatientReport"
+  	transaction(t): "org1.healthcare.biznet.ChangeOfDoctorApproval"
     condition: (true)
     action: ALLOW
 }
