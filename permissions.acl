@@ -163,6 +163,35 @@ rule AppointmentPat8{
   action: ALLOW
 }
 
+rule RequestforReassignByDoctor{
+  description: "Doctor initiates request to reassign doctor in report and this asset can only be created through transaction."
+  participant(p): "org1.healthcare.biznet.Doctor"
+  operation: ALL
+  resource: "org1.healthcare.biznet.ReassignReportRequest"
+  transaction(t): "org1.healthcare.biznet.RequestDoctorChange"
+  condition: (p.getIdentifier() == t.byDoctor.getIdentifier())
+  action: ALLOW
+}
+
+rule ReadRequestOfPatientByDoctor {
+  description: "Reading the asset request created by doctor for patient as a request to change doctor in report"
+  participant(p): "org1.healthcare.biznet.Patient"
+  operation: READ
+  resource(r): "org1.healthcare.biznet.ReassignReportRequest"
+  condition: (p.PatientId == r.patientId.getIdentifier())
+  action: ALLOW
+}
+
+rule ApproveReassignRequest {
+  description: "Patient apporves wether he wants to accept or reject the new doctor."
+  participant(p): "org1.healthcare.biznet.Patient"
+  operation: READ, UPDATE, DELETE
+  resource(r): "org1.healthcare.biznet.ReassignReportRequest"
+  transaction(tx): "org1.healthcare.biznet.ApproveRequestDoctorChange" 
+  condition: (p.getIdentifier() == tx.byPatient.getIdentifier())
+  action: ALLOW
+}
+
 rule NetworkAdminUser {
     description: "Grant business network administrators full access to user resources"
     participant: "org.hyperledger.composer.system.NetworkAdmin"
