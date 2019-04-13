@@ -69,5 +69,7 @@ composer identity issue -c admin@healthcare-network -u d3 -a "org1.healthcare.bi
 composer card import --file d3@healthcare-network.card
 
 To generate card for the participants:
-./genid.sh "org1.healthcare.biznet.Doctor#4" d4
+./genid.sh "org1.healthcare.biznet.Doctor#5" d5
 ./genid.sh "resource_id" userid
+
+Use ./genpa.sh to generate 3 Doctors and 3 Patients
