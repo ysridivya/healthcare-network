@@ -12,6 +12,165 @@
  * limitations under the License.
  */
 
+rule PatientRule1 {
+    description: "Patient can read Lab Participants "
+    participant: "org1.healthcare.biznet.Patient"
+    operation: READ
+    resource: "org1.healthcare.biznet.TestLab"
+    action: ALLOW
+}
+
+rule PatientRule2 {
+    description: "Patient can read Pharmacy Participants "
+    participant: "org1.healthcare.biznet.Patient"
+    operation: READ
+    resource: "org1.healthcare.biznet.Pharmacy"
+    action: ALLOW
+}
+
+rule PatientRule3 {
+    description: "Patient can read TestLab Participants "
+    participant: "org1.healthcare.biznet.Patient"
+    operation: READ
+    resource: "org1.healthcare.biznet.TestLab"
+    action: ALLOW
+}
+
+rule PatientRule4 {
+    description: "Patient can read Hospital Participants "
+    participant: "org1.healthcare.biznet.Patient"
+    operation: READ
+    resource: "org1.healthcare.biznet.Hospital"
+    action: ALLOW
+}
+
+rule PatientRule5 {
+    description: "Patient can read Doctor Participants "
+    participant: "org1.healthcare.biznet.Patient"
+    operation: READ
+    resource: "org1.healthcare.biznet.Doctor"
+    action: ALLOW
+}
+
+rule DoctorRule1 {
+    description: "Doctor can read Lab Participants "
+    participant: "org1.healthcare.biznet.Doctor"
+    operation: READ
+    resource: "org1.healthcare.biznet.TestLab"
+    action: ALLOW
+}
+
+rule DoctorRule2 {
+    description: "Doctor can read Pharmacy Participants "
+    participant: "org1.healthcare.biznet.Doctor"
+    operation: READ
+    resource: "org1.healthcare.biznet.Pharmacy"
+    action: ALLOW
+}
+
+rule DoctorRule3 {
+    description: "Doctor can read TestLab Participants "
+    participant: "org1.healthcare.biznet.Doctor"
+    operation: READ
+    resource: "org1.healthcare.biznet.TestLab"
+    action: ALLOW
+}
+
+rule DoctorRule4 {
+    description: "Doctor can read Hospital Participants "
+    participant: "org1.healthcare.biznet.Doctor"
+    operation: READ
+    resource: "org1.healthcare.biznet.Hospital"
+    action: ALLOW
+}
+
+rule DoctorRule5{
+  description: "Doctor can see all doctors "
+  participant: "org1.healthcare.biznet.Doctor"
+  operation: READ
+  resource: "org1.healthcare.biznet.Doctor"
+  action: ALLOW
+}
+
+rule PharmacyRule1 {
+    description: "Pharmacy can read Lab Participants "
+    participant: "org1.healthcare.biznet.Pharmacy"
+    operation: READ
+    resource: "org1.healthcare.biznet.TestLab"
+    action: ALLOW
+}
+
+rule PharmacyRule2 {
+    description: "Pharmacy can read Pharmacy Participants "
+    participant: "org1.healthcare.biznet.Pharmacy"
+    operation: READ
+    resource: "org1.healthcare.biznet.Pharmacy"
+    action: ALLOW
+}
+
+rule PharmacyRule3 {
+    description: "Pharmacy can read TestLab Participants "
+    participant: "org1.healthcare.biznet.Pharmacy"
+    operation: READ
+    resource: "org1.healthcare.biznet.TestLab"
+    action: ALLOW
+}
+
+rule PharmacyRule4 {
+    description: "Pharmacy can read Hospital Participants "
+    participant: "org1.healthcare.biznet.Pharmacy"
+    operation: READ
+    resource: "org1.healthcare.biznet.Hospital"
+    action: ALLOW
+}
+
+rule PharmacyRule5{
+  description: "Pharmacy can see all doctors "
+  participant: "org1.healthcare.biznet.Pharmacy"
+  operation: READ
+  resource: "org1.healthcare.biznet.Doctor"
+  action: ALLOW
+}
+
+rule TestLabRule1 {
+    description: "TestLab can read Lab Participants "
+    participant: "org1.healthcare.biznet.TestLab"
+    operation: READ
+    resource: "org1.healthcare.biznet.TestLab"
+    action: ALLOW
+}
+
+rule TestLabRule2 {
+    description: "TestLab can read Pharmacy Participants "
+    participant: "org1.healthcare.biznet.TestLab"
+    operation: READ
+    resource: "org1.healthcare.biznet.Pharmacy"
+    action: ALLOW
+}
+
+rule TestLabRule3 {
+    description: "TestLab can read TestLab Participants "
+    participant: "org1.healthcare.biznet.TestLab"
+    operation: READ
+    resource: "org1.healthcare.biznet.TestLab"
+    action: ALLOW
+}
+
+rule TestLabRule4 {
+    description: "TestLab can read Hospital Participants "
+    participant: "org1.healthcare.biznet.TestLab"
+    operation: READ
+    resource: "org1.healthcare.biznet.Hospital"
+    action: ALLOW
+}
+
+rule TestLabRule5{
+  description: "TestLab can see all doctors "
+  participant: "org1.healthcare.biznet.TestLab"
+  operation: READ
+  resource: "org1.healthcare.biznet.Doctor"
+  action: ALLOW
+}
 
  rule RequestLabReportRule1 {
       description: "Doctor can request lab report only through ReqLabReport Transaction"
@@ -40,6 +199,33 @@
         resource: "org1.healthcare.biznet.RequestLabReport"
         transaction(t): "org1.healthcare.biznet.ReqLabReport"
         condition: (p.getIdentifier() == t.LabID)
+        action: ALLOW
+    }
+
+    rule ProcessPrescription1 {
+        description: "Only Pharmacy can process Prescription. (Update Prescription to completed)"
+        participant(p): "org1.healthcare.biznet.Pharmacy"
+        operation: UPDATE
+        resource(r): "org1.healthcare.biznet.Prescription"
+        condition: (r.toPharmacy.getIdentifier() == p.getIdentifier())
+        action: ALLOW
+    }
+
+    rule ProcessPrescription2 {
+        description: "Only Pharmacy can process Prescription. (Update Prescription to completed)"
+        participant(p): "org1.healthcare.biznet.Doctor"
+        operation: READ
+        resource(r): "org1.healthcare.biznet.Prescription"
+        condition: (r.byDoctor.getIdentifier() == p.doctorId)
+        action: ALLOW
+    }
+
+    rule ProcessPrescription3 {
+        description: "Only Pharmacy can process Prescription. (Update Prescription to completed)"
+        participant(p): "org1.healthcare.biznet.Patient"
+        operation: READ
+        resource(r): "org1.healthcare.biznet.Prescription"
+        condition: (r.forPatient.getIdentifier() == p.patientId)
         action: ALLOW
     }
 
@@ -72,7 +258,7 @@ rule AppointmentDoc3 {
 }
 
 rule AppointmentDoc4{
-  description: "Patient can view a DoctorSchedule only through DoctorAvailability transaction"
+  description: "Doctor can view any doctor availability"
   participant(p): "org1.healthcare.biznet.Doctor"
   operation: READ
   resource(r): "org1.healthcare.biznet.DoctorSchedule"
@@ -82,12 +268,13 @@ rule AppointmentDoc4{
 }
 
 rule AppointmentDoc5{
-  description: "Patient can create a DoctorAvailability transaction "
+  description: "Doctor can create a DoctorAvailability transaction "
   participant: "org1.healthcare.biznet.Doctor"
   operation: CREATE,READ
   resource: "org1.healthcare.biznet.DoctorAvailability"
   action: ALLOW
 }
+
 
 rule AppointmentPat1{
   description: "Patient can only read his appointment "
@@ -117,13 +304,7 @@ rule AppointmentPat3 {
     action: ALLOW
 }
 
-rule AppointmentPat4 {
-    description: "Patient can read Doctor Participants "
-    participant: "org1.healthcare.biznet.Patient"
-    operation: READ
-    resource: "org1.healthcare.biznet.Doctor"
-    action: ALLOW
-}
+
 
 rule AppointmentPat5{
   description: "Patient can initiate a read appointment transaction for himself "
@@ -141,6 +322,71 @@ rule AppointmentPat6{
   resource(r): "org1.healthcare.biznet.DoctorSchedule"
   transaction(t): "org1.healthcare.biznet.CreateAppointment"
   condition: (t.byPatient == p.getIdentifier())
+  action: ALLOW
+}
+
+rule DoctorResolveApp {
+  description: "Resolve appointment by doctor"
+  participant(p): "org1.healthcare.biznet.Doctor"
+  operation: CREATE
+  resource(r): "org1.healthcare.biznet.ResolveAppointment"
+  condition: (r.appointment.forDoctor.getIdentifier() == p.getIdentifier())
+  action: ALLOW
+}
+
+rule DoctorCreatesReport {
+  description: "Doctor can create a patient report using transaction only."
+  participant(p): "org1.healthcare.biznet.Doctor"
+  operation: CREATE
+  resource(r): "org1.healthcare.biznet.PatientReport"
+  transaction(tx): "org1.healthcare.biznet.ResolveAppointment"
+  condition: (p.getIdentifier() == tx.appointment.forDoctor.getIdentifier())
+  action: ALLOW
+}
+
+rule DoctorCreatesPrescription {
+  description: "Doctor can create a patient prescription using transaction only."
+  participant(p): "org1.healthcare.biznet.Doctor"
+  operation: CREATE
+  resource(r): "org1.healthcare.biznet.Prescription"
+  transaction(tx): "org1.healthcare.biznet.ResolveAppointment"
+  condition: (p.getIdentifier() == tx.appointment.forDoctor.getIdentifier())
+  action: ALLOW
+}
+
+rule DoctorSeePatientReport {
+  description: "Doctor can see patient report."
+  participant(p): "org1.healthcare.biznet.Doctor"
+  operation: READ
+  resource(r): "org1.healthcare.biznet.PatientReport"
+  condition: (p.getIdentifier() == r.creatingDoctor.getIdentifier())
+  action: ALLOW
+}
+
+rule PatientCanSeeReport {
+  description: "Patient can see the report of himself by any doctor."
+  participant(p): "org1.healthcare.biznet.Patient"
+  operation: ALL
+  resource(r): "org1.healthcare.biznet.PatientReport"
+  condition: (p.getIdentifier() == r.ownerPatient.getIdentifier())
+  action: ALLOW
+}
+
+rule PatientCanSeePrescription {
+  description: "Patient can see the prescription of himself by any doctor."
+  participant(p): "org1.healthcare.biznet.Patient"
+  operation: ALL
+  resource(r): "org1.healthcare.biznet.Prescription"
+  condition: (p.getIdentifier() == r.forPatient.getIdentifier())
+  action: ALLOW
+}
+
+rule DoctorSeePrescription {
+  description: "Doctor can see prescription he wrote."
+  participant(p): "org1.healthcare.biznet.Doctor"
+  operation: READ,CREATE
+  resource(r): "org1.healthcare.biznet.Prescription"
+  condition: (p.getIdentifier() == r.byDoctor.getIdentifier())
   action: ALLOW
 }
 
@@ -162,13 +408,95 @@ rule AppointmentPat8{
   action: ALLOW
 }
 
+rule LabReport1{
+  description: "Lab can generate or view the lab reports generated by them"
+  participant(p): "org1.healthcare.biznet.TestLab"
+  operation: CREATE,READ
+  resource(r): "org1.healthcare.biznet.LabReport"
+  condition: (p.getIdentifier()==r.lab.getIdentifier())
+  action: ALLOW
+}
+
+rule LabReport2{
+  description: "Patient can view only his/ her lab report"
+  participant(p): "org1.healthcare.biznet.Patient"
+  operation:READ
+  resource(r): "org1.healthcare.biznet.LabReport"
+  condition: (p.getIdentifier()==r.patient.getIdentifier())
+  action: ALLOW
+}
+rule LabReport3{
+  description: "Patient can transaction generates which his/her lab report"
+  participant(p): "org1.healthcare.biznet.Patient"
+  operation: READ
+  resource(r):"org1.healthcare.biznet.GenerateLabReport"
+  condition: (p.getIdentifier()==r.PatientId)
+  action: ALLOW
+}
+
+rule LabReport4{
+  description: "Doctor can view the lab report  which are prescribed by him"
+  participant(p): "org1.healthcare.biznet.Doctor"
+  operation: READ
+  resource(r):"org1.healthcare.biznet.LabReport"
+  condition: (p.getIdentifier()==r.doctor.getIdentifier())
+  action: ALLOW
+}
+
+rule LabReport5{
+  description: "Doctor can view the lab report transactions which are prescribed by him"
+  participant(p): "org1.healthcare.biznet.Doctor"
+  operation: READ
+  resource(r):"org1.healthcare.biznet.GenerateLabReport"
+  condition: (p.getIdentifier()==r.DoctorId)
+  action: ALLOW
+}
+
+rule LabReport6{
+  description: "Lab can view the transactions which generated the lab reports "
+  participant(p): "org1.healthcare.biznet.TestLab"
+  operation: CREATE,READ
+  resource(r):"org1.healthcare.biznet.GenerateLabReport"
+  condition: (p.getIdentifier()==r.LabId)
+  action: ALLOW
+}
+
+rule LabReport7{
+  description: "Lab can view the patient in the transaction"
+  participant(p): "org1.healthcare.biznet.TestLab"
+  operation: READ
+  resource(r):"org1.healthcare.biznet.Patient"
+  transaction(t):"org1.healthcare.biznet.GenerateLabReport"
+  condition: (p.getIdentifier()==t.LabId)
+  action: ALLOW
+}
+
+rule LabReport8{
+  description: "Lab can view the doctor in the transaction"
+  participant(p): "org1.healthcare.biznet.TestLab"
+  operation: READ
+  resource(r):"org1.healthcare.biznet.Doctor"
+  transaction(t):"org1.healthcare.biznet.GenerateLabReport"
+  condition: (p.getIdentifier()==t.LabId)
+  action: ALLOW
+}
+
 rule RequestforReassignByDoctor{
   description: "Doctor initiates request to reassign doctor in report and this asset can only be created through transaction."
   participant(p): "org1.healthcare.biznet.Doctor"
-  operation: ALL
-  resource: "org1.healthcare.biznet.ReassignReportRequest"
+  operation: CREATE
+  resource(r): "org1.healthcare.biznet.ReassignReportRequest"
   transaction(t): "org1.healthcare.biznet.RequestDoctorChange"
   condition: (p.getIdentifier() == t.byDoctor.getIdentifier())
+  action: ALLOW
+}
+
+rule ReadRequestAssetByDoctor {
+  description: "Doctor can read a helper reassign request asset."
+  participant(p): "org1.healthcare.biznet.Doctor"
+  operation: READ,UPDATE,DELETE
+  resource(r): "org1.healthcare.biznet.ReassignReportRequest"
+  condition: (p.getIdentifier() == r.oldDoctor.getIdentifier())
   action: ALLOW
 }
 
@@ -177,7 +505,35 @@ rule ReadRequestOfPatientByDoctor {
   participant(p): "org1.healthcare.biznet.Patient"
   operation: READ
   resource(r): "org1.healthcare.biznet.ReassignReportRequest"
-  condition: (p.PatientId == r.patientId.getIdentifier())
+  condition: (p.getIdentifier() == r.patientId.getIdentifier())
+  action: ALLOW
+}
+
+rule ReplyToReqByDoctor {
+  description: "Patient replies to request by doctor through trransaction"
+  participant(p): "org1.healthcare.biznet.Patient"
+  operation: READ,DELETE
+  resource(res): "org1.healthcare.biznet.ReassignReportRequest"
+  transaction(tx): "org1.healthcare.biznet.ApproveRequestDoctorChange"
+  condition: (tx.byPatient.getIdentifier() == p.getIdentifier())
+  action: ALLOW
+}
+
+rule CreateRequestToChangeDoctorByDoctor {
+  description: "Doctor can create a request to change doctor."
+  participant(p): "org1.healthcare.biznet.Doctor"
+  operation: ALL
+  resource(r): "org1.healthcare.biznet.RequestDoctorChange"
+  condition: (p.getIdentifier() == r.byDoctor.getIdentifier() )
+  action: ALLOW
+}
+
+rule PatientCanCallApprove {
+  description: "Patient can call approve function."
+  participant(p): "org1.healthcare.biznet.Patient"
+  operation: CREATE
+  resource(r): "org1.healthcare.biznet.ApproveRequestDoctorChange"
+  condition: (p.getIdentifier() === r.byPatient.getIdentifier())
   action: ALLOW
 }
 
@@ -186,7 +542,7 @@ rule ApproveReassignRequest {
   participant(p): "org1.healthcare.biznet.Patient"
   operation: READ, UPDATE, DELETE
   resource(r): "org1.healthcare.biznet.ReassignReportRequest"
-  transaction(tx): "org1.healthcare.biznet.ApproveRequestDoctorChange" 
+  transaction(tx): "org1.healthcare.biznet.ApproveRequestDoctorChange"
   condition: (p.getIdentifier() == tx.byPatient.getIdentifier())
   action: ALLOW
 }
@@ -288,6 +644,3 @@ rule ChangeOfDoctorRule2 {
     condition: (true)
     action: ALLOW
 }
-
-
-
