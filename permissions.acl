@@ -105,7 +105,6 @@ rule AppointmentPat2{
   resource(r): "org1.healthcare.biznet.CreateAppointment"
   condition: (r.byPatient == p.getIdentifier())
   action: ALLOW
-
 }
 
 rule AppointmentPat3 {
@@ -224,15 +223,51 @@ rule SystemACL {
   action: ALLOW
 }
 
-rule ShareReportACL {
-    description: "Description of the ACL rule"
+rule ShareTransaction {
+    description: "Transaction should only be created by patient when owner id is set"
+    participant(m): "org1.healthcare.biznet.Patient"
+    operation: ALL
+    resource(v): "org1.healthcare.biznet.Share"
+    condition: (m.getIdentifier() == v.ownerId)
+    action: ALLOW
+}
+
+rule ShareReport {
+    description: "Only owner of the report is allowed to change modify the share report"
     participant(m): "org1.healthcare.biznet.Patient"
     operation: ALL
     resource(v): "org1.healthcare.biznet.ShareReport"
-    transaction(t): "org1.healthcare.biznet.Share"
-    condition: (true)
+    condition: (m.getIdentifier() == v.ownerId)
     action: ALLOW
 }
+
+rule PatientReport_Owner {
+    description: "Patient Report can only be read by the patient"
+    participant(m): "org1.healthcare.biznet.Patient"
+    operation: READ
+    resource(v): "org1.healthcare.biznet.PatientReport"
+    condition: (m.getIdentifier() == v.ownerPatient.getIdentifier())
+    action: ALLOW
+}
+
+rule ShareReportPatientRead {
+    description: "Report can be read by the patient whom it is shared with(Patient)"
+    participant(m): "org1.healthcare.biznet.Patient"
+    operation: READ
+    resource(v): "org1.healthcare.biznet.ShareReport"
+    condition: (m.getIdentifier() == v.sharedTo.getIdentifier() && v.participantType == "Patient")
+    action: ALLOW
+}
+
+rule ShareReportDoctorRead {
+    description: "Report can be read by the patient whom it is shared with(Doctor)"
+    participant(m): "org1.healthcare.biznet.Doctor"
+    operation: READ
+    resource(v): "org1.healthcare.biznet.ShareReport"
+    condition: (m.getIdentifier() == v.sharedTo.getIdentifier() && v.participantType == "Doctor")
+    action: ALLOW
+}
+
 
 rule ChangeOfDoctorRule1 {
     description: "Request can only be placed by a patient"
