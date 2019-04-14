@@ -14,33 +14,32 @@ export class SignupComponent implements OnInit {
         private router: Router,
         private restService: RestService) {
 }
-    fullname: Object;
-    age: Object;
-    address: Object;
-    phone: Object;
     private signUp = {
         fullname: '',
         age: '',
         address: '',
         phone: '',
       };
+    public loading = false;
 
+    // TODO: Convert using ng-app  
     ngOnInit() {}
     registerUser(e)
     {
         e.preventDefault();
-        const target = event.target;
-        //const fullname = target.get('fullname');
-        //console.log(target.getElementById('fullname'));
-        this.signUp.fullname = e.target.elements[0].value
-        this.signUp.age = e.target.elements[1].value
-        this.signUp.address = e.target.elements[2].value
-        this.signUp.phone = e.target.elements[3].value
+        this.signUp.fullname = e.target.elements[0].value;
+        this.signUp.age = e.target.elements[1].value;
+        this.signUp.address = e.target.elements[2].value;
+        this.signUp.phone = e.target.elements[3].value;
+        this.loading = true;
+        
 
         console.log(this.signUp.fullname,this.signUp.age,this.signUp.address,this.signUp.phone);
         return this.restService.signUp(this.signUp)
       .then(() => {
-        console.log('Something worked')
+        this.loading = false;
+        this.router.navigateByUrl('/dashboard');
+        console.log('User ' + this.signUp.fullname + ' Has sucessfully signed up');
       })
     }
 }

@@ -15,22 +15,23 @@ export class RestService {
       Age: data.age,
       Address: data.address,
       phoneNumber: data.phone,
-      id: data.fullname
+      PatientId: data.fullname
     };
     return this.httpClient.post('http://localhost:3001/api/org1.healthcare.biznet.Patient', collector).toPromise()
     .then(() => {
       const identity = {
-        participant: 'org1.healthcare.biznet.Patient#' + data.id,
-        userID: data.id,
+        // TODO: Add logic to generate unique ids.
+        participant: 'org1.healthcare.biznet.Patient#' + data.fullname,
+        userID: data.fullname,
         options: {}
       };
 
+      
       return this.httpClient.post('http://localhost:3001/api/system/identities/issue', identity, {responseType: 'blob'}).toPromise();
     })
     .then((cardData) => {
     console.log('CARD-DATA', cardData);
       const file = new File([cardData], 'myCard.card', {type: 'application/octet-stream', lastModified: Date.now()});
-
       const formData = new FormData();
       formData.append('card', file);
 
