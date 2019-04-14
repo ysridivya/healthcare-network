@@ -19,9 +19,10 @@
                 <div class="form-group">
                         <input type="text" class="form-control input-underline input-lg" id="" placeholder="{{ 'Phone Number' | translate }}">
                 </div>
-                <input class="btn rounded-btn" type="submit" value = "{{ 'Register' | translate }}">
+                <button class="btn rounded-btn" type="submit" value = "{{ 'Register' | translate }}">
+                        <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>Register
+                </button>
                 <a class="btn rounded-btn" [routerLink]="['/login']">{{ 'Log in' | translate }}</a>
-
             </form>
         </div>
     </div>

@@ -1,2 +1,8 @@
 // shared css for the login and signup page
 @import "../login/login.component.scss";
+
+  /* Add a right margin to each icon */
+.fa {
+    margin-left: -12px;
+    margin-right: 8px;
+  }
