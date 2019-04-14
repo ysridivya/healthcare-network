@@ -1,0 +1,22 @@
+Oauth Setup
+
+First server to register and login the participants
+composer-rest-server -c admin@healthcare-network -p 3001
+
+
+export COMPOSER_PROVIDERS='{
+  "github": {
+    "provider": "github",
+    "module": "passport-github",
+    "clientID": "",
+    "clientSecret": "",
+    "authPath": "/auth/github",
+    "callbackURL": "/auth/github/callback",
+    "successRedirect": "http://localhost:4200/dashboard?loggedIn=true",
+    "failureRedirect": "/"
+  }
+}'
+
+
+npm install passport-github
+composer-rest-server -c admin@healthcare-network -m true
