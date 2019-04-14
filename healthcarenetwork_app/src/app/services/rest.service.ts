@@ -36,6 +36,7 @@ export class RestService {
       formData.append('card', file);
 
       const headers = new HttpHeaders();
+      console.log('Importing the card into the wallet');
       headers.set('Content-Type', 'multipart/form-data');
       return this.httpClient.post('http://localhost:3000/api/wallet/import', formData, {
         withCredentials: true,
@@ -52,6 +53,39 @@ getCurrentUser() {
     .then((data) => {
       return data['participant'];
     });
+}
+
+
+getAllDoctors(){
+  return this.httpClient.get('http://localhost:3001/api/org1.healthcare.biznet.Doctor', {withCredentials: true})
+}
+
+getMyAppointment(){
+  return this.httpClient.get('http://localhost:3001/api/org1.healthcare.biznet.Appointment', {withCredentials: true})
+}
+
+getAllPharmacy(){
+  return this.httpClient.get('http://localhost:3001/api/org1.healthcare.biznet.Pharmacy', {withCredentials: true})
+}
+
+getLabs(){
+  return this.httpClient.get('http://localhost:3001/api/org1.healthcare.biznet.TestLab', {withCredentials: true})
+}
+
+createAppointment(data) {
+  console.log('createapoointment called')
+  const collector = {
+    $class : 'org1.healthcare.biznet.CreateAppointment',
+    forDoctor : data.forDoctor,
+    byPatient : data.byPatient,
+    scheduleDate : data.scheduleDate
+  };
+
+  
+  return this.httpClient.post('http://localhost:3001/api/org1.healthcare.biznet.CreateAppointment', collector).toPromise().then((opt) =>{
+    console.log(opt);
+
+  });
 }
 
 }

@@ -2,31 +2,31 @@
     <div class="list-group">
         <a routerLink="/dashboard" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-dashboard"></i>&nbsp;
-            <span>{{ 'Dashboard' | translate }}</span>
+            <span>{{ 'Appointment' | translate }}</span>
         </a>
         <a [routerLink]="['/charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;
-            <span>{{ 'Charts' | translate }}</span>
+            <span>{{ 'Doctor' | translate }}</span>
         </a>
         <a [routerLink]="['/tables']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-table"></i>&nbsp;
-            <span>{{ 'Tables' | translate }}</span>
+            <span>{{ 'Pharmacy' | translate }}</span>
         </a>
         <a [routerLink]="['/forms']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-edit"></i>&nbsp;
-            <span>{{ 'Forms' | translate }}</span>
+            <span>{{ 'Labs' | translate }}</span>
         </a>
         <a [routerLink]="['/bs-element']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-desktop"></i>&nbsp;
-            <span>{{ 'Bootstrap Element' | translate }}</span>
+            <span>{{ 'LabReport Element' | translate }}</span>
         </a>
         <a [routerLink]="['/grid']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-wrench"></i>&nbsp;
-            <span>{{ 'Bootstrap Grid' | translate }}</span>
+            <span>{{ 'Hospital Grid' | translate }}</span>
         </a>
         <a [routerLink]="['/components']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-th-list"></i>&nbsp;
-            <span>{{ 'Component' | translate }}</span>
+            <span>{{ 'Prescription' | translate }}</span>
         </a>
         <div class="nested-menu">
             <a class="list-group-item" (click)="addExpandClass('pages')">
@@ -115,7 +115,7 @@
             </div>
             <div class="nested-menu">
                 <a class="list-group-item" (click)="addExpandClass('profile')">
-                    <span><i class="fa fa-user"></i>&nbsp; John Smith</span>
+                    <span><i class="fa fa-user"></i>&nbsp; {{username}}</span>
                 </a>
                 <li class="nested" [class.expand]="showMenu === 'profile'">
                     <ul class="submenu">

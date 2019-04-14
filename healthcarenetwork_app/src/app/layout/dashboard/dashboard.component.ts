@@ -20,61 +20,35 @@ export class DashboardComponent implements OnInit {
   authenticated: boolean;
   loggedIn: boolean;
   private currentUser;
+  appointment: Array<object>;
 
-
-    // constructor() {
-    //     this.sliders.push(
-    //         {
-    //             imagePath: 'assets/images/slider1.jpg',
-    //             label: 'First slide label',
-    //             text:
-    //                 'Nulla vitae elit libero, a pharetra augue mollis interdum.'
-    //         },
-    //         {
-    //             imagePath: 'assets/images/slider2.jpg',
-    //             label: 'Second slide label',
-    //             text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
-    //         },
-    //         {
-    //             imagePath: 'assets/images/slider3.jpg',
-    //             label: 'Third slide label',
-    //             text:
-    //                 'Praesent commodo cursus magna, vel scelerisque nisl consectetur.'
-    //         }
-    //     );
-    //
-    //     this.alerts.push(
-    //         {
-    //             id: 1,
-    //             type: 'success',
-    //             message: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-    //             Voluptates est animi quibusdam praesentium quam, et perspiciatis,
-    //             consectetur velit culpa molestias dignissimos
-    //             voluptatum veritatis quod aliquam! Rerum placeat necessitatibus, vitae dolorum`
-    //         },
-    //         {
-    //             id: 2,
-    //             type: 'warning',
-    //             message: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-    //             Voluptates est animi quibusdam praesentium quam, et perspiciatis,
-    //             consectetur velit culpa molestias dignissimos
-    //             voluptatum veritatis quod aliquam! Rerum placeat necessitatibus, vitae dolorum`
-    //         }
-    //     );
-    // }
-
-    ngOnInit() {
+  ngOnInit() {
     this.route.queryParams.subscribe((params) => {
         const loggedIn = params['loggedIn'];
+        this.restService.getMyAppointment().subscribe(
+            data =>{
+                this.appointment = [];
+                for(let key in data)
+                {
+                    this.appointment.push(data[key]);
+                    console.log(data[key]);
+                }
+            }
+        );
         if (loggedIn) {
           console.log('User Logged in successfully')
           this.authenticated = true;
-          return this.checkWallet();
+          return this.checkWallet()
+          .then(() => {
+              
+          });         
+
 
         }else {
           console.log('User Not Logged in successfully')
         }
       });
+      
   }
 
   checkWallet() {
@@ -92,6 +66,8 @@ export class DashboardComponent implements OnInit {
       .then((currentUser) => {
         this.currentUser = currentUser;
         console.log('Current User is ' + currentUser );
+        localStorage.setItem('username', currentUser);
+        //this.restService.getAllDoctors()
       });
   }
 
