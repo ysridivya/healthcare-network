@@ -17,6 +17,10 @@ export class DashboardComponent implements OnInit {
               private router: Router,
               private restService: RestService) {
   }
+  authenticated: boolean;
+  loggedIn: boolean;
+  private currentUser;
+
 
     // constructor() {
     //     this.sliders.push(
@@ -65,10 +69,8 @@ export class DashboardComponent implements OnInit {
         if (loggedIn) {
           console.log('User Logged in successfully')
           this.authenticated = true;
-          return this.router.navigate(['/'])
-            .then(() => {
-              return this.checkWallet();
-            });
+          return this.checkWallet();
+
         }else {
           console.log('User Not Logged in successfully')
         }
@@ -81,14 +83,15 @@ export class DashboardComponent implements OnInit {
         if (results['length'] > 0) {
           this.loggedIn = true;
           return this.getCurrentUser()
-            .then(() => {
-              this.congaName = this.CONGAS[this.getRandomIntInclusive(0, this.CONGAS.length - 1)];
-              return this.getAvailablePenguins();
-            })
-            .then(() => {
-              return this.getMyPenguins();
-            });
         }
+      });
+  }
+
+  getCurrentUser() {
+    return this.restService.getCurrentUser()
+      .then((currentUser) => {
+        this.currentUser = currentUser;
+        console.log('Current User is ' + currentUser );
       });
   }
 

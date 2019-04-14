@@ -43,5 +43,15 @@ export class RestService {
       }).toPromise();
     });
 }
+checkWallet() {
+  return this.httpClient.get('http://localhost:3000/api/wallet', {withCredentials: true}).toPromise();
+}
+
+getCurrentUser() {
+  return this.httpClient.get('http://localhost:3000/api/system/ping', {withCredentials: true}).toPromise()
+    .then((data) => {
+      return data['participant'];
+    });
+}
 
 }

@@ -38,8 +38,10 @@ export class SignupComponent implements OnInit {
         return this.restService.signUp(this.signUp)
       .then(() => {
         this.loading = false;
-        this.router.navigateByUrl('/dashboard');
-        console.log('User ' + this.signUp.fullname + ' Has sucessfully signed up');
+        //this.router.navigateByUrl('/dashboard?loggedIn=true');
+        this.router.navigate(['/dashboard'], { queryParams: { loggedIn: 'true' } });
+
+        console.log('User ' + this.signUp.fullname + ' has sucessfully signed up');
       })
     }
 }
