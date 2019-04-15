@@ -108,12 +108,10 @@ createAppointment(data) {
   });
 }
 
-<<<<<<< HEAD
 getPatientReport(){
   return this.httpClient.get('http://localhost:3000/api/org1.healthcare.biznet.PatientReport', {withCredentials: true})
 }
 
-=======
 changeDoctor(data) {
   console.log("Change Doc called by " + data.PatientIdRef)
   const collector = {
@@ -132,5 +130,4 @@ changeDoctor(data) {
 
 
 
->>>>>>> dd1791caa28cd5488541b5399a3fab3da70df910
 }
