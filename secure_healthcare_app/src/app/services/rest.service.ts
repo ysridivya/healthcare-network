@@ -93,13 +93,14 @@ createAppointment(data) {
     $class : 'org1.healthcare.biznet.CreateAppointment',
     forDoctor : data.forDoctor,
     byPatient : data.byPatient,
-    scheduleDate : '2019-10-14T16:33:24.409Z'
+    scheduleDate : data.scheduleDate
 
   };
 
   
   return this.httpClient.post('http://localhost:3001/api/org1.healthcare.biznet.CreateAppointment', collector).toPromise().then((opt) =>{
     console.log(opt);
+    return opt;
 
   });
 }
