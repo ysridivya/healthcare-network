@@ -234,7 +234,7 @@ rule ProcessLabReportRequest1 {
   participant(p): "org1.healthcare.biznet.Patient"
   operation: UPDATE
   resource(r): "org1.healthcare.biznet.RequestLabReport"
-  transaction(t): "org1.healthcare.biznet.ReqLabReportclear"
+  transaction(t): "org1.healthcare.biznet.ReqLabReport"
   condition: (r.report.ownerPatient.getIdentifier() == p.getIdentifier())
   action: ALLOW
 }

@@ -20,8 +20,8 @@ export COMPOSER_PROVIDERS='{
   "github": {
     "provider": "github",
     "module": "passport-github",
-    "clientID": "see#whats#app",
-    "clientSecret": "see#whats#app",
+    "clientID": "ce282af4f7d2c62b4942",
+    "clientSecret": "e2be1a9cf37596d233980e3a1c94dfa9d9cf50dd",
     "authPath": "/auth/github",
     "callbackURL": "/auth/github/callback",
     "successRedirect": "http://localhost:4200/dashboard?loggedIn=true",
