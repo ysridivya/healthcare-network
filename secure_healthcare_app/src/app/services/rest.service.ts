@@ -71,6 +71,13 @@ getAllPharmacy(){
 getLabs(){
   return this.httpClient.get('http://localhost:3000/api/org1.healthcare.biznet.TestLab', {withCredentials: true})
 }
+getAllHospitals(){
+  return this.httpClient.get('http://localhost:3000/api/org1.healthcare.biznet.Hospital', {withCredentials: true})
+}
+
+getPatientLabReport(){
+  return this.httpClient.get('http://localhost:3000/api/org1.healthcare.biznet.LabReport', {withCredentials: true})
+}
 
 createAppointment(data) {
   console.log('createapoointment called by the user' + data.byPatient)
