@@ -10,6 +10,11 @@ Terminal1:
 composer-rest-server -c admin@healthcare-network -p 3001
 ------------------------------------------------------------------>
 
+Replace client id and client Secret with the text given on Whatsapp. DO not commit them. 
+
+Install angular js from
+https://angular.io/cli
+
 Terminal2:
 export COMPOSER_PROVIDERS='{
   "github": {
@@ -27,6 +32,8 @@ composer-rest-server -c admin@healthcare-network -m true
 
 If you get github passport api not found error then do this in the nodejs modules path:
 npm install passport-github
+
+node js modules path will be shown in the error.( take path til /path/to/node_modules)
 ------------------------------------------------------------------>
 
 In a file directory
