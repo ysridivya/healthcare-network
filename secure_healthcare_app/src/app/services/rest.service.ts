@@ -83,6 +83,10 @@ getPatientPrescription(){
   return this.httpClient.get('http://localhost:3000/api/org1.healthcare.biznet.Prescription', {withCredentials: true})
 }
 
+logoutPatient(){
+  return this.httpClient.get('https://github.com/logout')
+}
+
 createAppointment(data) {
   console.log('createapoointment called by the user' + data.byPatient)
   const collector = {

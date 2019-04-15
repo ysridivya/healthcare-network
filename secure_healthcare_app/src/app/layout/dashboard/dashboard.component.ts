@@ -29,8 +29,13 @@ export class DashboardComponent implements OnInit {
             data =>{
                 this.appointment = [];
                 for(let key in data)
-                {
-                    this.appointment.push(data[key]);
+                { 
+                  if (data[key]['completed']) {
+                    data[key]["completed"] = "Completed!"
+                  }else {
+                    data[key]["completed"] = "In Progress!"
+                  }
+                  this.appointment.push(data[key]);
                     console.log(data[key]);
                 }
             }

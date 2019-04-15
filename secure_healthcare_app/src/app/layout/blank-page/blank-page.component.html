@@ -3,12 +3,13 @@
         <form (submit)="registerAppointment($event)">
         <!-- <div class="row justify-content-md-center">  -->
                 <div class="col-md-4">
-                                <p> DoctorId: </p>
+                                <p> Doctor:</p>
                                 <select class="form-control p-2 m-2" id="exampleFormControlSelect1">
                                                 <option *ngFor="let dropdown of doctors"        
-                                                    [attr.value]="dropdown">{{dropdown}}</option>
+                                                    [attr.value]="dropdown.DoctorId">{{dropdown.Name}}</option>
                                 </select>
                                 <!-- <p> Make this calendar widget  </p> -->
+                                
                                 <div class="form-group">
                                                 <input type="text" class="form-control input-underline input-lg" id="" placeholder="{{ 'Appointment Date' }}">
                                 </div>
