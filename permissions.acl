@@ -205,7 +205,7 @@ rule TestLabRule5{
     rule ProcessPrescription1 {
         description: "Only Pharmacy can process Prescription. (Update Prescription to completed)"
         participant(p): "org1.healthcare.biznet.Pharmacy"
-        operation: UPDATE
+        operation: UPDATE, READ
         resource(r): "org1.healthcare.biznet.Prescription"
         condition: (r.toPharmacy.getIdentifier() == p.getIdentifier())
         action: ALLOW
@@ -229,15 +229,15 @@ rule TestLabRule5{
         action: ALLOW
     }
 
-rule ProcessLabReportRequest1 {
-  description: "Only Patient can approve Lab Report Request. (Update RequestLabReport)"
-  participant(p): "org1.healthcare.biznet.Patient"
-  operation: UPDATE
-  resource(r): "org1.healthcare.biznet.RequestLabReport"
-  transaction(t): "org1.healthcare.biznet.ReqLabReport"
-  condition: (r.report.ownerPatient.getIdentifier() == p.getIdentifier())
-  action: ALLOW
-}
+ rule ProcessLabReportRequest1 {
+   description: "Only Patient can approve Lab Report Request. (Update RequestLabReport)"
+   participant(p): "org1.healthcare.biznet.Patient"
+   operation: UPDATE
+   resource(r): "org1.healthcare.biznet.RequestLabReport"
+   transaction(t): "org1.healthcare.biznet.ProcessLabReportRequest"
+   condition: (r.report.ownerPatient.getIdentifier() == p.getIdentifier())
+   action: ALLOW
+ }
 
 rule AppointmentDoc1 {
     description: "Doctor can view Appointment created for him "
@@ -385,7 +385,7 @@ rule PatientCanSeeReport {
 rule PatientCanSeePrescription {
   description: "Patient can see the prescription of himself by any doctor."
   participant(p): "org1.healthcare.biznet.Patient"
-  operation: ALL
+  operation: READ,UPDATE
   resource(r): "org1.healthcare.biznet.Prescription"
   condition: (p.getIdentifier() == r.forPatient.getIdentifier())
   action: ALLOW
@@ -394,7 +394,7 @@ rule PatientCanSeePrescription {
 rule DoctorSeePrescription {
   description: "Doctor can see prescription he wrote."
   participant(p): "org1.healthcare.biznet.Doctor"
-  operation: READ,CREATE
+  operation: READ
   resource(r): "org1.healthcare.biznet.Prescription"
   condition: (p.getIdentifier() == r.byDoctor.getIdentifier())
   action: ALLOW

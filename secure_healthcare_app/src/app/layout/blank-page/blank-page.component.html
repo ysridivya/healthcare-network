@@ -1,26 +1,22 @@
 <div class="login-page">
         <h1>Create appointment</h1> 
-        <form (submit)="registerAppointment($event)">
-        <!-- <div class="row justify-content-md-center">  -->
+        <br>    
+        <br>
+        <form (submit)="registerAppointment($event)" >
                 <div class="col-md-4">
-                                <p> DoctorId: </p>
-                                <select class="form-control p-2 m-2" id="exampleFormControlSelect1">
+                                <select class="form-control" id="exampleFormControlSelect1">
                                                 <option *ngFor="let dropdown of doctors"        
-                                                    [attr.value]="dropdown">{{dropdown}}</option>
-                                </select>
-                                <!-- <p> Make this calendar widget  </p> -->
-                                <div class="form-group">
-                                                <input type="text" class="form-control input-underline input-lg" id="" placeholder="{{ 'Appointment Date' }}">
-                                </div>
-
+                                                    [attr.value]="dropdown.DoctorId">{{dropdown.Name}}</option>
+                                </select>   
+                                <br>    
+                             
+                                <ngb-datepicker #dp [minDate]="minDate" [(ngModel)]="model" (navigate)="date = $event.next" [ngModelOptions]="{standalone: true}"></ngb-datepicker>
+                                <br>    
+                                <br>    
                                 <button class="btn rounded-btn" type="submit" value = "{{ 'Create Appointment' }}">
-                                                <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>Register
+                                                <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>Create Appointment
                                 </button>
                                 
                 </div>
         </form>
-        <!-- </div> -->
 </div> 
-
-
-
