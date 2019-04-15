@@ -27,12 +27,10 @@ asset RequestLabReport identified by requestID {
   o String requestTime
 }
 
-
-
 asset Appointment identified by appointmentId{
   o String appointmentId
   o String appointmentTime
-  o Boolean completed
+  o Boolean completed default=false
   o Integer slot
   --> Patient byPatient
   --> Doctor forDoctor
@@ -51,7 +49,7 @@ asset Prescription identified by receiptId {
   --> Doctor byDoctor
   --> Pharmacy toPharmacy
   o String PrescriptionText
-  o Boolean completed
+  o Boolean completed default=false
 }
 
 asset LabReport identified by reportID {
@@ -111,40 +109,40 @@ enum ParticipantType { // Not in Use currently can be removed later if not found
 participant Patient identified by PatientId extends Participant{
   o String PatientId
   o String Name
-  o String Age
+  o Integer Age default=18 range=[0,120]
   o String Address
-  o String phoneNumber
+  o String phoneNumber regex=/([0-9]{10}|[0-9]{5})/
 }
 
 participant Doctor identified by DoctorId extends Participant{
   o String DoctorId
-  o String Name
-  o String Age
+  o String Name 
+  o Integer Age default=18 range=[0,120]
   o String Address
-  o String phoneNumber
-  --> Hospital employedBy
+  o String phoneNumber regex=/([0-9]{10}|[0-9]{5})/
+  --> Hospital employedBy 
 }
 
 participant Hospital identified by HospitalId {
   o String HospitalId
-  o String Name
+  o String Name 
 }
 
 participant Pharmacy identified by pharmacyId {
   o String pharmacyId
-  o String pharmacyName
+  o String pharmacyName 
 }
 
 participant TestLab identified by labId {
   o String labId
-  o String labName
+  o String labName 
 }
 
 //Vishal
 transaction ReqLabReport {
   --> Doctor fromDoctor
   o String reportID
-  o String  PatientId
+  o String PatientId
   o String LabID
 }
 
@@ -163,8 +161,8 @@ transaction DoctorAvailability{
 transaction ResolveAppointment { // Creates PatientReport and Prescription
   --> Appointment appointment
   o String doctorId
-  o String reportMessage
-  o String PrescriptionText
+  o String reportMessage 
+  o String PrescriptionText 
   o String pharmacyId
 }
 
@@ -176,7 +174,7 @@ transaction ProcessPrescription {
 }
 
 transaction GenerateLabReport {
-  o String TestsReport
+  o String TestsReport 
   o String DoctorId optional
   o String PatientId
   o String LabId
@@ -192,7 +190,7 @@ transaction RequestDoctorChange {
 
 // Approves or denies doctor requests for change in doctor
 transaction ApproveRequestDoctorChange {
-  o Boolean approve
+  o Boolean approve default=false
   --> ReassignReportRequest toReassignRequest
   --> Patient byPatient
 }
