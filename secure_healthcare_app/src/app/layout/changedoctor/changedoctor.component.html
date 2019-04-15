@@ -7,14 +7,14 @@
         <select class="form-control p-2 m-2" id="exampleFormControlSelect1" >
                 <option selected="" >Select Report Id</option>
                 <option *ngFor="let dropdown of reports"        
-                    [attr.value]="dropdown">{{dropdown}}</option>
+                    [attr.value]="dropdown.reportId">{{'Report Id: ' + dropdown.reportId + '  |||  ' + 'reportMessage: ' + dropdown.reportMessage}}</option>
         </select>
 
 
         <select class="form-control p-2 m-2" id="exampleFormControlSelect1" >
                 <option selected="" >Select Doctor Id</option>
                 <option *ngFor="let dropdown of doctors" value="Doctor Id"        
-                    [attr.value]="dropdown">{{dropdown}}</option>
+                    [attr.value]="dropdown.DoctorId">{{'Doctor Name: ' + dropdown.Name}}</option>
         </select>
 
         <button class="btn rounded-btn" type="submit" value = "{{ 'Change Doctor'  }}">

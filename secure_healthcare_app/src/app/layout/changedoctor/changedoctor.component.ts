@@ -44,8 +44,8 @@ export class ChangedoctorComponent implements OnInit {
           this.reports = [];
           for(let key in data)
           {
-              this.reports.push(data[key]['reportId']);
-              console.log(data[key]['reportId']);
+              this.reports.push(data[key]);
+              console.log(data[key]);
           }
       }
   );
@@ -55,8 +55,8 @@ export class ChangedoctorComponent implements OnInit {
         this.doctors = [];
         for(let key in data)
         {
-            this.doctors.push(data[key]['DoctorId']);
-            console.log(data[key]['DoctorId']);
+            this.doctors.push(data[key]);
+            console.log(data[key]);
         }
     }
 );
