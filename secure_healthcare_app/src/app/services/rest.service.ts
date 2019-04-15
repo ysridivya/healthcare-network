@@ -79,6 +79,11 @@ getPatientLabReport(){
   return this.httpClient.get('http://localhost:3000/api/org1.healthcare.biznet.LabReport', {withCredentials: true})
 }
 
+getPatientReport(){
+  return this.httpClient.get('http://localhost:3000/api/org1.healthcare.biznet.PatientReport', {withCredentials: true})
+}
+
+
 createAppointment(data) {
   console.log('createapoointment called by the user' + data.byPatient)
   const collector = {
