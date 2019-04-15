@@ -1,0 +1,23 @@
+// shared css for the login and signup page
+
+  /* Add a right margin to each icon */
+.fa {
+    margin-left: -12px;
+    margin-right: 8px;
+  }
+  $topnav-background-color: #222;
+
+  .rounded-btn {
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+    color: rgba(255, 255, 255, 0.8);
+    background: $topnav-background-color;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    font-size: 18px;
+    line-height: 40px;
+    padding: 0 25px;
+}
+
+.login-page{
+  display: block
+}
