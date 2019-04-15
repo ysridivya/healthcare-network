@@ -127,6 +127,12 @@ changeDoctor(data) {
   });
 
 }
+sharePatientReport(data) {
+  return this.httpClient.post('http://localhost:3001/api/org1.healthcare.biznet.Share', data).toPromise().then((opt) =>{
+    console.log('Arun'+opt);
+
+  })
+}
 
 
 
