@@ -83,6 +83,10 @@ getPatientPrescription(){
   return this.httpClient.get('http://localhost:3000/api/org1.healthcare.biznet.Prescription', {withCredentials: true})
 }
 
+getAllReports(){
+  return this.httpClient.get('http://localhost:3000/api/org1.healthcare.biznet.PatientReport', {withCredentials: true})
+}
+
 createAppointment(data) {
   console.log('createapoointment called by the user' + data.byPatient)
   const collector = {
@@ -92,12 +96,29 @@ createAppointment(data) {
     scheduleDate : '2019-10-14T16:33:24.409Z'
 
   };
-
   
   return this.httpClient.post('http://localhost:3001/api/org1.healthcare.biznet.CreateAppointment', collector).toPromise().then((opt) =>{
     console.log(opt);
 
   });
 }
+
+changeDoctor(data) {
+  console.log("Change Doc called by " + data.PatientIdRef)
+  const collector = {
+    $class : 'org1.healthcare.biznet.ChangeOfDoctor',
+    byPatient   : data.PatientIdRef,
+    ReportId    : data.ReportId,
+    newDoctorId : data.newDoctorId
+  };
+  console.log(collector)
+  return this.httpClient.post('http://localhost:3001/api/org1.healthcare.biznet.ChangeOfDoctor', collector).toPromise().then((opt) =>{
+    console.log(opt);
+
+  });
+
+}
+
+
 
 }
