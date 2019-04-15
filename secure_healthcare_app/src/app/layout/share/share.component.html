@@ -4,12 +4,12 @@
       <select class="form-control p-2 m-2" id="exampleFormControlSelect1">
           <option selected="" value="Choose a Doctor to Share with">Choose a Doctor by Id </option>
           <option *ngFor="let doctor of doctors"        
-              [attr.value]="doctor">{{doctor.DoctorId}}</option>
+              [attr.value]="doctor.DoctorId">{{doctor.Name}}</option>
       </select>
-      <select class="form-control p-2 m-2" id="exampleFormControlSelect1" [(ngModel)]="selectedValue">
-          <option selected="" value="0">Choose the report by id</option>
+      <select class="form-control p-2 m-2" id="exampleFormControlSelect1">
+          <option selected="" value="">Choose the report by id</option>
           <option *ngFor="let report of patientReport"        
-              [attr.value]="report.reportId">{{report.reportId}}</option>
+              [attr.value]="report.reportId">{{report.reportMessage}}</option>
       </select>
       <!-- <input type="text" class="form-control input-underline input-lg" id ="" placeholder="{{''}}"/> -->
     <button class="btn rounded-btn" type="submit" value = "{{ 'Share' }}">
