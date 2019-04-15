@@ -1,16 +1,19 @@
 <div>
-    <app-page-header [heading]="'Bootstrap Component'" [icon]="'fa-th-list'"></app-page-header>
-    <app-modal></app-modal>
-    <app-alert></app-alert>
-    <app-buttons></app-buttons>
-    <app-collapse></app-collapse>
-    <app-date-picker></app-date-picker>
-    <app-dropdown></app-dropdown>
-    <app-pagination></app-pagination>
-    <app-pop-over></app-pop-over>
-    <app-progressbar></app-progressbar>
-    <app-tabs></app-tabs>
-    <app-tooltip></app-tooltip>
-    <app-timepicker></app-timepicker>
-    <app-rating></app-rating>
-</div>
+        <app-page-header [heading]="'Prescription'" ></app-page-header>
+    </div>
+    
+    <hr>
+    <div *ngFor="let item of prescription">
+       <b>Prescription Id: {{item['receiptId']}}</b>
+       <br>
+       <b>Doctor: {{item['byDoctor']}}</b>
+       <br>
+    
+       <b>Pharmacy: {{item['toPharmacy']}}</b>
+       <br>
+
+       <b>Prescription Text: {{item['PrescriptionText']}}</b>
+       <br>
+       <hr>
+    
+    </div>
