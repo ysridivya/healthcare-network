@@ -205,7 +205,7 @@ rule TestLabRule5{
     rule ProcessPrescription1 {
         description: "Only Pharmacy can process Prescription. (Update Prescription to completed)"
         participant(p): "org1.healthcare.biznet.Pharmacy"
-        operation: UPDATE
+        operation: UPDATE, READ
         resource(r): "org1.healthcare.biznet.Prescription"
         condition: (r.toPharmacy.getIdentifier() == p.getIdentifier())
         action: ALLOW
