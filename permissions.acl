@@ -229,15 +229,15 @@ rule TestLabRule5{
         action: ALLOW
     }
 
-// rule ProcessLabReportRequest1 {
-//   description: "Only Patient can approve Lab Report Request. (Update RequestLabReport)"
-//   participant(p): "org1.healthcare.biznet.Patient"
-//   operation: UPDATE
-//   resource(r): "org1.healthcare.biznet.RequestLabReport"
-//   transaction(t): "org1.healthcare.biznet.ProcessLabReportRequest"
-//   condition: (r.report.ownerPatient.getIdentifier() == p.getIdentifier())
-//   action: ALLOW
-// }
+ rule ProcessLabReportRequest1 {
+   description: "Only Patient can approve Lab Report Request. (Update RequestLabReport)"
+   participant(p): "org1.healthcare.biznet.Patient"
+   operation: UPDATE
+   resource(r): "org1.healthcare.biznet.RequestLabReport"
+   transaction(t): "org1.healthcare.biznet.ProcessLabReportRequest"
+   condition: (r.report.ownerPatient.getIdentifier() == p.getIdentifier())
+   action: ALLOW
+ }
 
 rule AppointmentDoc1 {
     description: "Doctor can view Appointment created for him "

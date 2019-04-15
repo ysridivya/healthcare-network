@@ -116,26 +116,26 @@ participant Patient identified by PatientId extends Participant{
 
 participant Doctor identified by DoctorId extends Participant{
   o String DoctorId
-  o String Name 
+  o String Name
   o Integer Age default=18 range=[0,120]
   o String Address
   o String phoneNumber regex=/([0-9]{10}|[0-9]{5})/
-  --> Hospital employedBy 
+  --> Hospital employedBy
 }
 
 participant Hospital identified by HospitalId {
   o String HospitalId
-  o String Name 
+  o String Name
 }
 
 participant Pharmacy identified by pharmacyId {
   o String pharmacyId
-  o String pharmacyName 
+  o String pharmacyName
 }
 
 participant TestLab identified by labId {
   o String labId
-  o String labName 
+  o String labName
 }
 
 //Vishal
@@ -161,8 +161,8 @@ transaction DoctorAvailability{
 transaction ResolveAppointment { // Creates PatientReport and Prescription
   --> Appointment appointment
   o String doctorId
-  o String reportMessage 
-  o String PrescriptionText 
+  o String reportMessage
+  o String PrescriptionText
   o String pharmacyId
 }
 
@@ -173,8 +173,13 @@ transaction ProcessPrescription {
   o String pharmacyId
 }
 
+transaction ProcessLabReportRequest {
+  --> RequestLabReport labReportRequest
+  o String patientID
+}
+
 transaction GenerateLabReport {
-  o String TestsReport 
+  o String TestsReport
   o String DoctorId optional
   o String PatientId
   o String LabId
