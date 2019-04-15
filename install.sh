@@ -9,4 +9,4 @@ then
 else
 	echo ./upgrade.sh $2
 fi
-# ./genpa.sh
+./genpa.sh
