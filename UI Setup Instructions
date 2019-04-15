@@ -34,6 +34,7 @@ Download the angular project from here.
 https://github.com/start-angular/SB-Admin-BS4-Angular-6
 
 replace the entire app folder from the repo in the git. 
+replace the src/index.html
 
 Terminal3 
 go the UI root folder. 

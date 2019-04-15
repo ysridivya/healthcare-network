@@ -14,13 +14,7 @@ export class TablesComponent implements OnInit {
         private router: Router,
         private restService: RestService) {
     }
-
-    private createappointment = {
-        forDoctor: '',
-        byPatient: '',
-        scheduleDate: ''
-      };
-
+    
  ngOnInit(){
     this.restService.getAllPharmacy().subscribe(
         data =>{
@@ -28,20 +22,9 @@ export class TablesComponent implements OnInit {
             for(let key in data)
             {
                 this.pharma.push(data[key]);
-                console.log(data[key]);
+                //console.log(data[key]);
             }
         }
     );
-    //this.appoint();
  }
-
- appoint() {
-    this.createappointment.forDoctor = '1'     //id will be subsitiuted
-    this.createappointment.byPatient = '1'     //id will be subsitiuted
-    this.createappointment.scheduleDate = '2019-09-14T16:33:24.409Z'
-
-    console.log(this.restService.createAppointment(this.createappointment))
- }
- 
-
 }

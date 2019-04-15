@@ -22,12 +22,10 @@ export class ChartsComponent implements OnInit {
             this.doctors = [];
             for(let key in data)
             {
-                this.doctors.push(data[key].DoctorId);
+                this.doctors.push(data[key]);
                 console.log(data[key]);
             }
         }
     );
  }
- 
-
 }
