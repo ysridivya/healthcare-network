@@ -1,4 +1,26 @@
-<!-- <div [@routerTransition]>
-        <app-page-header [heading]="'Create Appointment'"></app-page-header>
-    
-     -->
+<div class="login-page">
+        <h1>Create appointment</h1> 
+        <form (submit)="registerAppointment($event)">
+        <!-- <div class="row justify-content-md-center">  -->
+                <div class="col-md-4">
+                                <p> DoctorId: </p>
+                                <select class="form-control p-2 m-2" id="exampleFormControlSelect1">
+                                                <option *ngFor="let dropdown of doctors"        
+                                                    [attr.value]="dropdown">{{dropdown}}</option>
+                                </select>
+                                <!-- <p> Make this calendar widget  </p> -->
+                                <div class="form-group">
+                                                <input type="text" class="form-control input-underline input-lg" id="" placeholder="{{ 'Appointment Date' }}">
+                                </div>
+
+                                <button class="btn rounded-btn" type="submit" value = "{{ 'Create Appointment' }}">
+                                                <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>Register
+                                </button>
+                                
+                </div>
+        </form>
+        <!-- </div> -->
+</div> 
+
+
+

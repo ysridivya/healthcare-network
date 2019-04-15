@@ -57,28 +57,29 @@ getCurrentUser() {
 
 
 getAllDoctors(){
-  return this.httpClient.get('http://localhost:3001/api/org1.healthcare.biznet.Doctor', {withCredentials: true})
+  return this.httpClient.get('http://localhost:3000/api/org1.healthcare.biznet.Doctor', {withCredentials: true})
 }
 
 getMyAppointment(){
-  return this.httpClient.get('http://localhost:3001/api/org1.healthcare.biznet.Appointment', {withCredentials: true})
+  return this.httpClient.get('http://localhost:3000/api/org1.healthcare.biznet.Appointment', {withCredentials: true})
 }
 
 getAllPharmacy(){
-  return this.httpClient.get('http://localhost:3001/api/org1.healthcare.biznet.Pharmacy', {withCredentials: true})
+  return this.httpClient.get('http://localhost:3000/api/org1.healthcare.biznet.Pharmacy', {withCredentials: true})
 }
 
 getLabs(){
-  return this.httpClient.get('http://localhost:3001/api/org1.healthcare.biznet.TestLab', {withCredentials: true})
+  return this.httpClient.get('http://localhost:3000/api/org1.healthcare.biznet.TestLab', {withCredentials: true})
 }
 
 createAppointment(data) {
-  console.log('createapoointment called')
+  console.log('createapoointment called by the user' + data.byPatient)
   const collector = {
     $class : 'org1.healthcare.biznet.CreateAppointment',
     forDoctor : data.forDoctor,
     byPatient : data.byPatient,
-    scheduleDate : data.scheduleDate
+    scheduleDate : '2019-10-14T16:33:24.409Z'
+
   };
 
   

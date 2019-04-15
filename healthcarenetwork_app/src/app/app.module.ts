@@ -8,7 +8,7 @@ import { LanguageTranslationModule } from './shared/modules/language-translation
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthGuard } from './shared';
-
+import { FormsModule } from '@angular/forms';
 @NgModule({
     imports: [
         CommonModule,
@@ -16,7 +16,7 @@ import { AuthGuard } from './shared';
         BrowserAnimationsModule,
         HttpClientModule,
         LanguageTranslationModule,
-        AppRoutingModule
+        AppRoutingModule,BrowserModule, FormsModule 
     ],
     declarations: [AppComponent],
     providers: [AuthGuard],

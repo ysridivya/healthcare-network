@@ -32,7 +32,7 @@ export class TablesComponent implements OnInit {
             }
         }
     );
-    this.appoint();
+    //this.appoint();
  }
 
  appoint() {

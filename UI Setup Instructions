@@ -1,0 +1,44 @@
+Run the fabric 
+------------------------------------------------------------------>
+
+Start the network
+------------------------------------------------------------------>
+
+Run the following commands:
+
+Terminal1: 
+composer-rest-server -c admin@healthcare-network -p 3001
+------------------------------------------------------------------>
+
+Terminal2:
+export COMPOSER_PROVIDERS='{
+  "github": {
+    "provider": "github",
+    "module": "passport-github",
+    "clientID": "see#whats#app",
+    "clientSecret": "see#whats#app",
+    "authPath": "/auth/github",
+    "callbackURL": "/auth/github/callback",
+    "successRedirect": "http://localhost:4200/dashboard?loggedIn=true",
+    "failureRedirect": "/"
+  }
+}'
+composer-rest-server -c admin@healthcare-network -m true
+
+If you get github passport api not found error then do this in the nodejs modules path:
+npm install passport-github
+------------------------------------------------------------------>
+
+In a file directory
+Download the angular project from here. 
+https://github.com/start-angular/SB-Admin-BS4-Angular-6
+
+replace the entire app folder from the repo in the git. 
+
+Terminal3 
+go the UI root folder. 
+npm install
+npm start 
+
+------------------------------------------------------------------>
+
