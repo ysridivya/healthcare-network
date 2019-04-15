@@ -24,17 +24,27 @@ export class ChangedoctorComponent implements OnInit {
 
   changeDoctor(e)
   {
-    e.preventDefault();
-    var username = localStorage.getItem('username'); 
-    this.changedoctor.PatientIdRef = username;
-    this.changedoctor.ReportId = e.target.elements[0].value;
-    this.changedoctor.newDoctorId = e.target.elements[1].value;
-    console.log(this.changedoctor.PatientIdRef)
-    console.log(this.changedoctor.ReportId)
-    console.log(this.changedoctor.newDoctorId)
-    console.log(this.restService.changeDoctor(this.changedoctor))
-
-  }
+      e.preventDefault();
+      var username = localStorage.getItem('username'); 
+      this.changedoctor.PatientIdRef = username;
+      this.changedoctor.ReportId = e.target.elements[0].value;
+      this.changedoctor.newDoctorId = e.target.elements[1].value;
+      console.log(this.changedoctor.PatientIdRef)
+      console.log(this.changedoctor.ReportId)
+      console.log(this.changedoctor.newDoctorId)
+      // console.log(this.restService.changeDoctor(this.changedoctor))
+      return this.restService.changeDoctor(this.changedoctor)
+        .then((output) => {
+        var appointment_output = 'Change Doctor Request Posted Successfully'
+        window.alert(appointment_output);
+        }).catch((error)=>{
+            console.log(error.error.error.message);
+            var appointment_output = error.error.error.message
+            appointment_output = appointment_output.substr(appointment_output.lastIndexOf('Error'));
+            window.alert(appointment_output)
+          });
+      
+    }
 
   ngOnInit() {
 

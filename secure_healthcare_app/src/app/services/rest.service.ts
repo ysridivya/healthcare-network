@@ -120,6 +120,7 @@ changeDoctor(data) {
     ReportId    : data.ReportId,
     newDoctorId : data.newDoctorId
   };
+  
   console.log(collector)
   return this.httpClient.post('http://localhost:3001/api/org1.healthcare.biznet.ChangeOfDoctor', collector).toPromise().then((opt) =>{
     console.log(opt);

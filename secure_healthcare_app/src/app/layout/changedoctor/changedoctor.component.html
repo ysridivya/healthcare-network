@@ -7,7 +7,7 @@
         <select class="form-control p-2 m-2" id="exampleFormControlSelect1" >
                 <option selected="" >Select Report Id</option>
                 <option *ngFor="let dropdown of reports"        
-                    [attr.value]="dropdown.reportId">{{'Report Id: ' + dropdown.reportId + '  |||  ' + 'reportMessage: ' + dropdown.reportMessage}}</option>
+                    [attr.value]="dropdown.reportId">{{'Report Id: ' + dropdown.reportId + '  -->  ' + 'reportMessage: ' + dropdown.reportMessage}}</option>
         </select>
 
 
