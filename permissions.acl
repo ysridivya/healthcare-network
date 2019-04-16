@@ -176,18 +176,16 @@ rule TestLabRule5{
       description: "Doctor can request lab report only through ReqLabReport Transaction"
       participant(p): "org1.healthcare.biznet.Doctor"
       operation: CREATE
-      resource: "org1.healthcare.biznet.RequestLabReport"
-      transaction(t): "org1.healthcare.biznet.ReqLabReport"
-      condition: (p.getIdentifier() == t.fromDoctor.getIdentifier())
+      resource(r): "org1.healthcare.biznet.RequestLabReport"
+      condition: (p.getIdentifier() == r.doctorID)
       action: ALLOW
   }
 
   rule RequestLabReportRule2 {
        description: "Doctor can request lab report only through ReqLabReport Transaction"
        participant(p): "org1.healthcare.biznet.Patient"
-       operation: READ
+       operation: READ, UPDATE
        resource: "org1.healthcare.biznet.RequestLabReport"
-       transaction(t): "org1.healthcare.biznet.ReqLabReport"
        condition: (p.getIdentifier() == t.PatientId)
        action: ALLOW
    }
@@ -196,25 +194,33 @@ rule TestLabRule5{
         description: "Doctor can request lab report only through ReqLabReport Transaction"
         participant(p): "org1.healthcare.biznet.TestLab"
         operation: READ
-        resource: "org1.healthcare.biznet.RequestLabReport"
-        transaction(t): "org1.healthcare.biznet.ReqLabReport"
-        condition: (p.getIdentifier() == t.LabID)
+        resource(r): "org1.healthcare.biznet.RequestLabReport"
+        condition: (p.getIdentifier() == r.toLab.getIdentifier() && r.authorized)
         action: ALLOW
     }
+
+    rule ReqLabReportRule1 {
+         description: "Doctor can request lab report only through ReqLabReport Transaction"
+         participant(p): "org1.healthcare.biznet.Doctor"
+         operation: CREATE
+         resource(r): "org1.healthcare.biznet.ReqLabReport"
+         condition: (p.getIdentifier() == r.fromDoctor.getIdentifier())
+         action: ALLOW
+     }
 
     rule ProcessPrescription1 {
         description: "Only Pharmacy can process Prescription. (Update Prescription to completed)"
         participant(p): "org1.healthcare.biznet.Pharmacy"
-        operation: UPDATE, READ
+        operation: READ
         resource(r): "org1.healthcare.biznet.Prescription"
-        condition: (r.toPharmacy.getIdentifier() == p.getIdentifier())
+        condition: (r.toPharmacy.getIdentifier() == p.getIdentifier() && r.completed)
         action: ALLOW
     }
 
     rule ProcessPrescription2 {
         description: "Only Pharmacy can process Prescription. (Update Prescription to completed)"
         participant(p): "org1.healthcare.biznet.Doctor"
-        operation: READ
+        operation: READ, CREATE
         resource(r): "org1.healthcare.biznet.Prescription"
         condition: (r.byDoctor.getIdentifier() == p.doctorId)
         action: ALLOW
@@ -223,9 +229,18 @@ rule TestLabRule5{
     rule ProcessPrescription3 {
         description: "Only Pharmacy can process Prescription. (Update Prescription to completed)"
         participant(p): "org1.healthcare.biznet.Patient"
-        operation: READ
+        operation: READ, UPDATE
         resource(r): "org1.healthcare.biznet.Prescription"
         condition: (r.forPatient.getIdentifier() == p.patientId)
+        action: ALLOW
+    }
+
+    rule ProcessPrescriptiontx1 {
+        description: "Only Pharmacy can process Prescription. (Update Prescription to completed)"
+        participant(p): "org1.healthcare.biznet.Patient"
+        operation: CREATE
+        resource(r): "org1.healthcare.biznet.ProcessPrescription"
+        condition: (r.patientId == p.getIdentifier())
         action: ALLOW
     }
 
