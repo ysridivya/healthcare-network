@@ -83,6 +83,10 @@ getPatientPrescription(){
   return this.httpClient.get('http://localhost:3000/api/org1.healthcare.biznet.Prescription', {withCredentials: true})
 }
 
+getAllReports(){
+  return this.httpClient.get('http://localhost:3000/api/org1.healthcare.biznet.PatientReport', {withCredentials: true})
+}
+
 logoutPatient(){
   return this.httpClient.get('https://github.com/logout')
 }
@@ -96,7 +100,6 @@ createAppointment(data) {
     scheduleDate : data.scheduleDate
 
   };
-
   
   return this.httpClient.post('http://localhost:3001/api/org1.healthcare.biznet.CreateAppointment', collector).toPromise().then((opt) =>{
     console.log(opt);
@@ -104,5 +107,34 @@ createAppointment(data) {
 
   });
 }
+
+getPatientReport(){
+  return this.httpClient.get('http://localhost:3000/api/org1.healthcare.biznet.PatientReport', {withCredentials: true})
+}
+
+changeDoctor(data) {
+  console.log("Change Doc called by " + data.PatientIdRef)
+  const collector = {
+    $class : 'org1.healthcare.biznet.ChangeOfDoctor',
+    byPatient   : data.PatientIdRef,
+    ReportId    : data.ReportId,
+    newDoctorId : data.newDoctorId
+  };
+  
+  console.log(collector)
+  return this.httpClient.post('http://localhost:3001/api/org1.healthcare.biznet.ChangeOfDoctor', collector).toPromise().then((opt) =>{
+    console.log(opt);
+
+  });
+
+}
+sharePatientReport(data) {
+  return this.httpClient.post('http://localhost:3001/api/org1.healthcare.biznet.Share', data).toPromise().then((opt) =>{
+    console.log('Arun'+opt);
+
+  })
+}
+
+
 
 }
