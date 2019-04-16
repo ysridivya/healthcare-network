@@ -29,6 +29,7 @@ Save the ClientId and ClientSecret
 
 Go to terminal  and run the following commmands. 
 Remember to replace the clientId and ClientSecret obtained from the github
+```
 
 export COMPOSER_PROVIDERS='{
   "github": {
@@ -42,6 +43,8 @@ export COMPOSER_PROVIDERS='{
     "failureRedirect": "/"
   }
 }'
+```
+
 composer-rest-server -c admin@healthcare-network -m true
 
 
