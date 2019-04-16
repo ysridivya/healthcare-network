@@ -1,0 +1,15 @@
+<div [@routerTransition]>
+        <app-page-header [heading]="'Lab Report'" ></app-page-header>
+    </div>
+    
+    <hr>
+    <div *ngFor="let item of labreports">
+       <b>Lab Report Id: {{item['reportID']}}</b>
+       <br>
+       <b>Report: {{item['report']}}</b>
+       <br>
+       <b>Lab ID: {{item['lab']}}</b>
+       <br>
+       <hr>
+    
+    </div>

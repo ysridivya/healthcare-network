@@ -1,0 +1,16 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Doctors'" ></app-page-header>
+</div>
+
+<hr>
+<div *ngFor="let item of doctors">
+   <b>Doctor Id: {{item['DoctorId']}}</b>
+   <br>
+   <b>Name: {{item['Name']}}</b>
+   <br>
+
+   <b>Address: {{item['Address']}}</b>
+   <br>
+   <hr>
+
+</div>
