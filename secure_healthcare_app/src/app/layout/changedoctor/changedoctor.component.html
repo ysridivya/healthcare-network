@@ -1,0 +1,27 @@
+<div class="login-page">
+    <h1>Change Doctor</h1> 
+    <form (submit)="changeDoctor($event)">
+
+        &nbsp;
+
+        <select class="form-control p-2 m-2" id="exampleFormControlSelect1" >
+                <option selected="" >Select Report Id</option>
+                <option *ngFor="let dropdown of reports"        
+                    [attr.value]="dropdown.reportId">{{'Report Id: ' + dropdown.reportId + '  -->  ' + 'reportMessage: ' + dropdown.reportMessage}}</option>
+        </select>
+
+
+        <select class="form-control p-2 m-2" id="exampleFormControlSelect1" >
+                <option selected="" >Select Doctor Id</option>
+                <option *ngFor="let dropdown of doctors" value="Doctor Id"        
+                    [attr.value]="dropdown.DoctorId">{{'Doctor Name: ' + dropdown.Name}}</option>
+        </select>
+
+        <button class="btn rounded-btn" type="submit" value = "{{ 'Change Doctor'  }}">
+                <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>Send Approve Request to Doctor
+        </button>
+    </form>
+</div> 
+
+
+

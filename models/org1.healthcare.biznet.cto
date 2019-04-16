@@ -18,16 +18,28 @@
 
 namespace org1.healthcare.biznet
 
+//Vishal
+asset RequestLabReport identified by requestID {
+  --> TestLab toLab
+  o String doctorID
+  o String patientID
+  o Boolean authorized
+  o String requestID
+  o String requestTime
+  o String message
+}
+
 asset Appointment identified by appointmentId{
   o String appointmentId
   o String appointmentTime
-  o Boolean completed
+  o Boolean completed default=false
+  o Integer slot
   --> Patient byPatient
   --> Doctor forDoctor
 }
 
 asset PatientReport identified by reportId {
-  o String reportId 
+  o String reportId
   --> Patient ownerPatient
   --> Doctor creatingDoctor
   o String reportMessage //patient and doctor decide this during appointment
@@ -39,6 +51,7 @@ asset Prescription identified by receiptId {
   --> Doctor byDoctor
   --> Pharmacy toPharmacy
   o String PrescriptionText
+  o Boolean completed default=false
 }
 
 asset LabReport identified by reportID {
@@ -57,26 +70,58 @@ asset ReassignReportRequest identified by RequestId {
   --> Patient patientId
 }
 
+
+asset ShareReport identified by shareId{
+  o String shareId
+  o String reportId
+  --> Participant sharedTo
+  o Boolean isRevoked
+  o DateTime sharedOn
+  o DateTime expiresOn
+  o ParticipantType participantType default="Doctor"
+  o String ownerId
+  o String reportMessage
+}
+
+asset DoctorSchedule identified by doctorSchedule {
+  o String doctorSchedule
+  o String doctorId
+  o DateTime scheduleDate
+  o String[] patientSlot
+}
+
+asset ChangeDoctorHelperState identified by stateId {
+  o String stateId
+  o String PatientId
+  o String newDoctorId
+  --> PatientReport Report
+}
+
 enum ReportType { // Not in Use currently can be removed later if not found any use
   o DoctorReport
   o LabReport
   o Prescription
 }
 
-participant Patient identified by PatientId {
-  o String PatientId
-  o String Name
-  o String Age
-  o String Address
-  o String phoneNumber
+enum ParticipantType { // Not in Use currently can be removed later if not found any use
+  o Doctor
+  o Patient
 }
 
-participant Doctor identified by DoctorId {
+participant Patient identified by PatientId extends Participant{
+  o String PatientId
+  o String Name
+  o Integer Age default=18 range=[0,120]
+  o String Address
+  o String phoneNumber regex=/([0-9]{10}|[0-9]{5})/
+}
+
+participant Doctor identified by DoctorId extends Participant{
   o String DoctorId
   o String Name
-  o String Age
+  o Integer Age default=18 range=[0,120]
   o String Address
-  o String phoneNumber
+  o String phoneNumber regex=/([0-9]{10}|[0-9]{5})/
   --> Hospital employedBy
 }
 
@@ -95,9 +140,25 @@ participant TestLab identified by labId {
   o String labName
 }
 
+//Vishal
+transaction ReqLabReport {
+  --> Doctor fromDoctor
+  o String appointmentID
+  o String PatientId
+  o String LabID
+  o String message
+}
+
 transaction CreateAppointment { //Creates asset Appointment with DoctorId and PatientId
   o String forDoctor
   o String byPatient
+  o DateTime scheduleDate
+
+}
+
+transaction DoctorAvailability{
+  o String Doctor
+  o DateTime scheduleDate
 }
 
 transaction ResolveAppointment { // Creates PatientReport and Prescription
@@ -106,37 +167,26 @@ transaction ResolveAppointment { // Creates PatientReport and Prescription
   o String reportMessage
   o String PrescriptionText
   o String pharmacyId
-  o Boolean canBeReferred  //added
 }
 
 transaction ProcessPrescription {
   --> Prescription toProcessPrescription
-  --> Patient forPatient
-  --> Doctor byDoctor
+  o String patientId
+  o String doctorId
+  o String pharmacyId
+}
+
+transaction ProcessLabReportRequest {
+  --> RequestLabReport labReportRequest
+  o String patientID
 }
 
 transaction GenerateLabReport {
   o String TestsReport
   o String DoctorId optional
-  o String PatientId 
+  o String PatientId
   o String LabId
-}
-
-/* To be Verified */
-transaction ReferToAnotherDoctor {
-  --> Doctor oldDoctor
-  --> Doctor newDoctor
-  --> PatientReport Report
-}
-
-transaction RevokeReferral {
-  --> Patient ownerPatient
-  --> PatientReport Report
-}
-
-transaction AllowReferral {
-  --> Patient ownerPatient
-  --> PatientReport Report
+  o String labReportRequestID
 }
 
 // Request doctor change intiated by doctor
@@ -149,9 +199,32 @@ transaction RequestDoctorChange {
 
 // Approves or denies doctor requests for change in doctor
 transaction ApproveRequestDoctorChange {
-  o Boolean approve
+  o Boolean approve default=false
   --> ReassignReportRequest toReassignRequest
   --> Patient byPatient
+}
+
+
+transaction Share {
+  o String reportId
+  o String shareId
+  o String sharedWithId
+  o String ownerId
+  o Integer numberOfDays default=10
+  o ParticipantType participantType default="Doctor"
+  o Boolean isRevoking default=false
+}
+
+transaction ChangeOfDoctor {
+  --> Patient byPatient
+  o String ReportId
+  o String newDoctorId
+}
+
+transaction ChangeOfDoctorApproval {
+  --> Doctor newDoctor
+  --> ChangeDoctorHelperState helperState
+  o Boolean Approval
 }
 
 /*
@@ -162,6 +235,31 @@ event AppointmentEvent {
   o Appointment new_appointment
   o String forDoctor
   o String byPatient
+}
+
+event DoctorAvailabilityEvent {
+  o String Doctor
+  o String Message
+}
+
+//Vishal
+event RequestLabReportEvent {
+  o RequestLabReport new_request
+  o String fromDoctor
+  o String toLab
+  o String forPatient
+}
+
+event ChangeOfDoctorEvent {
+  o String newDoctorId
+  o String PatientId
+  o String Message
+}
+
+event ChangeOfDoctorApprovalRejectedEvent {
+  --> Patient RejectedPatient
+  o String DoctorId
+  o String Message
 }
 
 /*
