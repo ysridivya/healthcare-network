@@ -1,0 +1,17 @@
+<div class="login-page">
+  <h1>Schedule</h1> 
+  <form (submit)="getSchedule($event)" >
+    <div class="col-md-4"> 
+      <ngb-datepicker #dp [minDate]="minDate" [(ngModel)]="model" (navigate)="date = $event.next" [ngModelOptions]="{standalone: true}"></ngb-datepicker>
+      <br>    
+      <br>    
+      <button class="btn rounded-btn" type="submit" value = "{{ 'Create Appointment' }}">
+                      <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>Find Schedule
+      </button>       
+    </div>
+</form>
+
+</div> 
+
+
+

@@ -1,0 +1,32 @@
+<div class="login-page">
+        <h1>Resolve Patients Appointment</h1> 
+        <form (submit)="resolveAppointment($event)">
+        <!-- <div class="row justify-content-md-center">  -->
+                <div class="col-md-6">
+                                <p> Appointments :</p>
+                                <select class="form-control p-2 m-2" id="exampleFormControlSelect1">
+                                                <option *ngFor="let dropdown of doctors"        
+                                                    [attr.value]="dropdown.appointmentId">{{dropdown.appointmentId}}</option>
+                                </select>
+                                <!-- <p> Make this calendar widget  </p> -->
+                                <div class="form-group">
+                                        <p>Report of Patient : </p><input type="text" class="form-control input-underline input-lg" id="" placeholder="{{ 'Message'  }}">
+                                </div>
+                                <div class="form-group">
+                                        <p>Prescription : </p><input type="text" class="form-control input-underline input-lg" id="" placeholder="{{ 'Medicines'  }}">
+                                </div>
+                                <p>Pharmacy : </p>
+                                <select class="form-control p-2 m-2" id="exampleFormControlSelect1">
+                                        <option *ngFor="let dropdown of pharmacy"        
+                                            [attr.value]="dropdown.pharmacyId">{{dropdown.pharmacyName}}</option>
+                                </select>
+                                <button class="btn rounded-btn" type="submit" value = "{{ 'Resolve Appointment' }}">
+                                                <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>Register
+                                </button>
+                                
+                </div>
+        </form>
+</div> 
+
+
+
