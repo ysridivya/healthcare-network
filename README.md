@@ -54,4 +54,6 @@ composer-rest-server -c admin@healthcare-network -m true
 3. npm start
 The front end application is running on the link http://localhost:4200
 
-If multiple participants are used then change the default user from the 
+If multiple participants are used then change the default user from the rest server api.
+
+Refer to: https://github.com/nitinvbharti/healthcare-network
