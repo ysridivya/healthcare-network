@@ -1,0 +1,19 @@
+<div>
+        <app-page-header [heading]="'Prescription'" ></app-page-header>
+    </div>
+    
+    <hr>
+    <div *ngFor="let item of prescription">
+       <b>Prescription Id: {{item['receiptId']}}</b>
+       <br>
+       <b>Doctor: {{item['byDoctor']}}</b>
+       <br>
+    
+       <b>Pharmacy: {{item['toPharmacy']}}</b>
+       <br>
+
+       <b>Prescription Text: {{item['PrescriptionText']}}</b>
+       <br>
+       <hr>
+    
+    </div>

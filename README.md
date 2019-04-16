@@ -3,7 +3,7 @@
 Secure health record sharing application built on hyperledger framework.
 ## Start hyperledger:
 #Change Directory to fabric-dev-servers, then,
-1. export FABRIC_VERSION=hlfv11 #Specify version of the fabric
+1. export FABRIC_VERSION=hlfv12 #Specify version of the fabric
 2. ./downloadFabric.sh # To download and extract the tools required to install Hyperledger Fabric. One time only.
 3. ./startFabric.sh  # To start fabric runtime.
 4. ./createPeerAdminCard.sh # To genefsdfrate cards analogous to real life business cards, so as to join the network
@@ -49,7 +49,9 @@ composer-rest-server -c admin@healthcare-network -m true
 
 
 ## Starting the front end application server. 
-1. cd secure_healthcare_app
+1. cd patient_secure_health_care_app/
 2. npm install
 3. npm start
 The front end application is running on the link http://localhost:4200
+
+If multiple participants are used then change the default user from the 
